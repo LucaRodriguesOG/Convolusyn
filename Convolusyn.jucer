@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="xMi8wF" name="Convolusyn" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              pluginFormats="buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="zfqPOY" name="Convolusyn">
     <GROUP id="{3A193901-31D5-7837-CB2F-19BA2C98AE73}" name="Source">
       <FILE id="pihLM7" name="PluginProcessor.cpp" compile="1" resource="0"
