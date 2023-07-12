@@ -5,6 +5,7 @@
               pluginFormats="buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="zfqPOY" name="Convolusyn">
     <GROUP id="{3A193901-31D5-7837-CB2F-19BA2C98AE73}" name="Source">
+      <FILE id="V6C6g1" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
       <FILE id="pihLM7" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="tJmORP" name="PluginProcessor.h" compile="0" resource="0"

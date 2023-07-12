@@ -10,7 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "Wavetable.h"
+#include "WavetableOsc.h"
 
 //==============================================================================
 /**
@@ -33,8 +33,8 @@ private:
     //============================================================================== Sliders
     juce::Slider midivol;
 
-    //==============================================================================
-    Wavetable waves;
+    //============================================================================== Oscillators
+    WavetableOsc waves(const juce::AudioSampleBuffer& ASB);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };
