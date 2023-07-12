@@ -40,7 +40,7 @@ void ConvolusynAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Volume", 0, 0, getWidth(), 30, juce::Justification::centred, 1); // FIXME: location of volume text
+    g.drawFittedText ("Volume", (getWidth() / 2) - 40, 0, getWidth(), 30, juce::Justification::centred, 1); // FIXME: location of volume text
 }
 
 void ConvolusynAudioProcessorEditor::resized()
@@ -48,5 +48,5 @@ void ConvolusynAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     
-    midivol.setBounds(getWidth() - 50, 50, 20, 100);
+    midivol.setBounds(getWidth() - 50, 25, 20, 100);
 }

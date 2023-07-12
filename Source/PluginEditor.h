@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Wavetable.h"
 
 //==============================================================================
 /**
@@ -29,7 +30,11 @@ private:
     // access the processor object that created it.
     ConvolusynAudioProcessor& audioProcessor;
 
-    juce::Slider midivol; // [1]
+    //============================================================================== Sliders
+    juce::Slider midivol;
+
+    //==============================================================================
+    Wavetable waves;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };
