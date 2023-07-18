@@ -95,6 +95,16 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    juce::dsp::ProcessSpec spec;                    // declare/init process spec
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.sampleRate = sampleRate;
+    spec.numChannels = getTotalNumInputChannels();
+
+    osc1.prepare(spec);                             // prepares osc w/ spec
+    gain.prepare(spec);                             // prepares gain w/ spec
+
+    osc1.setFrequency(220.0f);
+    gain.setGainLinear(0.10f);
 }
 
 void ConvolusynAudioProcessor::releaseResources()
@@ -143,6 +153,15 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+
+
+
+    // this will create an audio block, oscillator will add data to it, gain will turn it down
+
+    juce::dsp::AudioBlock<float> audioBlock { buffer };                     // init audio block
+    osc1.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init osc replacing context w/ audio block
+
+    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init gain replacing context w/ audio block
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...

@@ -5,7 +5,6 @@
               pluginFormats="buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="zfqPOY" name="Convolusyn">
     <GROUP id="{3A193901-31D5-7837-CB2F-19BA2C98AE73}" name="Source">
-      <FILE id="V6C6g1" name="WavetableOsc.h" compile="0" resource="0" file="Source/WavetableOsc.h"/>
       <FILE id="pihLM7" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="tJmORP" name="PluginProcessor.h" compile="0" resource="0"
@@ -36,7 +35,6 @@
         <MODULEPATH id="juce_graphics" path="../../juce-7.0.5-windows/JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../../juce-7.0.5-windows/JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../juce-7.0.5-windows/JUCE/modules"/>
-        <MODULEPATH id="juce_osc" path="../../juce-7.0.5-windows/JUCE/modules"/>
       </MODULEPATHS>
     </VS2022>
   </EXPORTFORMATS>
@@ -55,6 +53,5 @@
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
 </JUCERPROJECT>

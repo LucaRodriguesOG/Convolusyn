@@ -10,7 +10,6 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "WavetableOsc.h"
 
 //==============================================================================
 /**
@@ -25,6 +24,8 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    //============================================================================== Oscillators+
+
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -33,8 +34,7 @@ private:
     //============================================================================== Sliders
     juce::Slider midivol;
 
-    //============================================================================== Oscillators
-    WavetableOsc waves(const juce::AudioSampleBuffer& ASB);
+    //============================================================================== OSC
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };

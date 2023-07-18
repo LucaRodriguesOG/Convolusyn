@@ -58,5 +58,10 @@ public:
 
 private:
     //==============================================================================
+
+    //============================================================================== Oscillator+
+    juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); } };   // init oscillator w/ std::sin()
+    juce::dsp::Gain<float> gain;                                                // declare gain
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessor)
 };
