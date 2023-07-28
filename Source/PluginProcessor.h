@@ -60,8 +60,11 @@ private:
     //==============================================================================
 
     //============================================================================== Oscillator+
-    juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); } };   // init oscillator w/ std::sin()
-    juce::dsp::Gain<float> gain;                                                // declare gain
+    juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); }, 200 };  // init oscillator w/ std::sin(), 200 lut idx
+    juce::dsp::Gain<float> gain;                                                    // declare gain
+
+    // saw eq: return x / juce::MathConstants<float>::pi;
+    // square eq: return x < 0.0f ? -1.0f : 1.0f;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessor)
 };

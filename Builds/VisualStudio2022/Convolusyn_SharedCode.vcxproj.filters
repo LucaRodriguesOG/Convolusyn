@@ -607,6 +607,9 @@
     <ClCompile Include="..\..\Source\PluginEditor.cpp">
       <Filter>Convolusyn\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Synth.cpp">
+      <Filter>Convolusyn\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClCompile>
@@ -3049,6 +3052,9 @@
       <Filter>Convolusyn\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PluginEditor.h">
+      <Filter>Convolusyn\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Synth.h">
       <Filter>Convolusyn\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

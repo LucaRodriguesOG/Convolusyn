@@ -12,6 +12,8 @@
       <FILE id="AixCsI" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="HC5kpJ" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="VyHz7F" name="Synth.cpp" compile="1" resource="0" file="Source/Synth.cpp"/>
+      <FILE id="Fizjbr" name="Synth.h" compile="0" resource="0" file="Source/Synth.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
