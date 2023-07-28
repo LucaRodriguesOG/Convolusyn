@@ -12,7 +12,7 @@
 
 #include <JuceHeader.h>
 
-class Sounds : public juce::SynthesiserSound {
+class Sound : public juce::SynthesiserSound {
     
 public:
     bool appliesToNote(int midiNoteNumber) override { return true; }
@@ -21,7 +21,7 @@ public:
 private:
 };
 
-class Voices : public juce::SynthesiserVoice {
+class Voice : public juce::SynthesiserVoice {
 
 public:
     bool canPlaySound(juce::SynthesiserSound* sound) override;

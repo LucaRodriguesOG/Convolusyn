@@ -22,6 +22,8 @@ ConvolusynAudioProcessor::ConvolusynAudioProcessor()
                        )
 #endif
 {
+    synth.addSound(new Sound());
+    synth.addVoice(new Voice());
 }
 
 ConvolusynAudioProcessor::~ConvolusynAudioProcessor()
@@ -95,6 +97,8 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    /* -------------------------------------------------------------------------------------------- Legacy
     juce::dsp::ProcessSpec spec;                    // declare/init process spec
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
@@ -105,6 +109,11 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 
     osc1.setFrequency(220.0f);
     gain.setGainLinear(0.10f);
+    */
+
+    // -------------------------------------------------------------------------------------------- Synth
+    synth.setCurrentPlaybackSampleRate(sampleRate);
+
 }
 
 void ConvolusynAudioProcessor::releaseResources()
@@ -155,13 +164,26 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         buffer.clear (i, 0, buffer.getNumSamples());
 
 
-
+    /* -------------------------------------------------------------------------------------------- Legacy
     // this will create an audio block, oscillator will add data to it, gain will turn it down
 
     juce::dsp::AudioBlock<float> audioBlock { buffer };                     // init audio block
     osc1.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init osc replacing context w/ audio block
 
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init gain replacing context w/ audio block
+    */
+
+
+    // -------------------------------------------------------------------------------------------- Synth
+    for (int i = 0; i < synth.getNumVoices(); i++) {
+        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i))) {
+            // osc controlls
+            // adsr
+            // lfo
+        }
+    }
+
+    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -208,3 +230,6 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new ConvolusynAudioProcessor();
 }
+
+
+// Value Tree

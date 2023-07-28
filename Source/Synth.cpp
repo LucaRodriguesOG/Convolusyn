@@ -11,26 +11,26 @@
 #include "Synth.h"
 #include <JuceHeader.h>
 
-bool Voices::canPlaySound(juce::SynthesiserSound* sound) {
+bool Voice::canPlaySound(juce::SynthesiserSound* sound) {
+    return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
+}
+
+void Voice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
 
 }
 
-void Voices::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
+void Voice::stopNote(float velocity, bool allowTailOff) {
 
 }
 
-void Voices::stopNote(float velocity, bool allowTailOff) {
+void Voice::pitchWheelMoved(int newPitchWheelValue) {
 
 }
 
-void Voices::pitchWheelMoved(int newPitchWheelValue) {
+void Voice::controllerMoved(int controllerNumber, int newControllerValue) {
 
 }
 
-void Voices::controllerMoved(int controllerNumber, int newControllerValue) {
-
-}
-
-void Voices::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
+void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
 
 }

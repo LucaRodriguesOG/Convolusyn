@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Synth.h"
 
 //==============================================================================
 /**
@@ -57,7 +58,9 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
-    //==============================================================================
+    //============================================================================== Synth
+    juce::Synthesiser synth;
+
 
     //============================================================================== Oscillator+
     juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); }, 200 };  // init oscillator w/ std::sin(), 200 lut idx
