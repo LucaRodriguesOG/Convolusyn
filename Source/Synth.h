@@ -24,6 +24,7 @@ private:
 class Voice : public juce::SynthesiserVoice {
 
 public:
+    // pure virtuals
     bool canPlaySound(juce::SynthesiserSound* sound) override;
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) override;
     void stopNote(float velocity, bool allowTailOff) override;
@@ -31,5 +32,19 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override;
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 
+    // voice class
+    void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
+
 private:
+    bool isPrepared = false;
+    //============================================================================== Oscillator+
+    juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); }, 200 };  // init oscillator w/ std::sin(), 200 lut idx
+    juce::dsp::Gain<float> gain;                                                    // declare gain
+
+    // saw eq: return x / juce::MathConstants<float>::pi;
+    // square eq: return x < 0.0f ? -1.0f : 1.0f;
+
+    //============================================================================== ADSR+
+    juce::ADSR adsr;
+    juce::ADSR::Parameters adsrParams;
 };

@@ -96,24 +96,19 @@ void ConvolusynAudioProcessor::changeProgramName (int index, const juce::String&
 void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    
-    /* -------------------------------------------------------------------------------------------- Legacy
-    juce::dsp::ProcessSpec spec;                    // declare/init process spec
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.sampleRate = sampleRate;
-    spec.numChannels = getTotalNumInputChannels();
-
-    osc1.prepare(spec);                             // prepares osc w/ spec
-    gain.prepare(spec);                             // prepares gain w/ spec
-
-    osc1.setFrequency(220.0f);
-    gain.setGainLinear(0.10f);
-    */
+    // initialisation that you need...
 
     // -------------------------------------------------------------------------------------------- Synth
     synth.setCurrentPlaybackSampleRate(sampleRate);
+    
 
+    // for each voice in the synth, we must cast it to one of our voices (not juce::SynthesiserVoices), and use our
+    // prepareToPlay function on our voices. This will process each voice so they are ready to play.
+    for (int i = 0; i < synth.getNumVoices(); i++) {
+        if (auto voice = dynamic_cast<Voice*>(synth.getVoice(i))) {
+            voice->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
+        }
+    }
 }
 
 void ConvolusynAudioProcessor::releaseResources()
@@ -163,21 +158,10 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-
-    /* -------------------------------------------------------------------------------------------- Legacy
-    // this will create an audio block, oscillator will add data to it, gain will turn it down
-
-    juce::dsp::AudioBlock<float> audioBlock { buffer };                     // init audio block
-    osc1.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init osc replacing context w/ audio block
-
-    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init gain replacing context w/ audio block
-    */
-
-
     // -------------------------------------------------------------------------------------------- Synth
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i))) {
-            // osc controlls
+            // osc controls
             // adsr
             // lfo
         }
