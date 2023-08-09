@@ -24,6 +24,10 @@ void Voice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound
 
 void Voice::stopNote(float velocity, bool allowTailOff) {
     adsr.noteOff();
+
+    if (!allowTailOff || !adsr.isActive()) {
+        clearCurrentNote();
+    }
 }
 
 void Voice::pitchWheelMoved(int newPitchWheelValue) {
@@ -36,17 +40,35 @@ void Voice::controllerMoved(int controllerNumber, int newControllerValue) {
 
 void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
     
+    // if applying to sBuffer, start from 0 to sBuffer.getNumSamples()
+    // if applying to outputBuffer, start from startSample to numSamples.
+
     jassert(isPrepared);
     
+    if (!isVoiceActive()) {
+        return;
+    }
+
+    sBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true); // set size to exactly what we need, no reallocation
+    sBuffer.clear();
+
     // this will create an audio block, oscillator will add data to it, gain will turn it down
 
-    juce::dsp::AudioBlock<float> audioBlock { outputBuffer };               // init audio block
+    juce::dsp::AudioBlock<float> audioBlock { sBuffer };                    // init audio block
     osc1.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init osc replacing context w/ audio block
 
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init gain replacing context w/ audio block
 
-    adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);      // init adsr (outputBuffer is alias for audioBlock
+    adsr.applyEnvelopeToBuffer(sBuffer, 0, sBuffer.getNumSamples());        // init adsr (sBuffer is alias for audioBlock)
                                                                             // bc osc1 and gain needed a contexted dsp Block
+    
+    for (int i = 0; i < outputBuffer.getNumChannels(); i++) {               // iterate through channels and add sample from
+        outputBuffer.addFrom(i, startSample, sBuffer, i, 0, numSamples);    // sBuffer to outputBuffer
+
+        if (!adsr.isActive()) {                                             // if adsr isnt on
+            clearCurrentNote();                                             // clear the note
+        }
+    }
 }
 
 // voice class
@@ -63,6 +85,13 @@ void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChan
     gain.prepare(spec);                             // prepares gain w/ spec
 
     gain.setGainLinear(0.10f);
+
+    adsrParams.attack = 0.2f;                       // sets adsr parameters
+    adsrParams.decay = 0.2f;
+    adsrParams.sustain = 1.0f;
+    adsrParams.release = 1.0f;
+
+    adsr.setParameters(adsrParams);                 // apply parameters to adsr
 
     isPrepared = true;
 }

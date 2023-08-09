@@ -159,12 +159,19 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // -------------------------------------------------------------------------------------------- Synth
+    //============================================================================== Synth
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i))) {
             // osc controls
             // adsr
             // lfo
+        }
+    }
+
+    //============================================================================== Midi
+    for (const juce::MidiMessageMetadata metadata : midiMessages) {
+        if (metadata.numBytes == 3) {
+            juce::Logger::writeToLog("Sample Time: " + juce::String(metadata.getMessage().getTimeStamp()));
         }
     }
 

@@ -37,6 +37,7 @@ public:
 
 private:
     bool isPrepared = false;
+
     //============================================================================== Oscillator+
     juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); }, 200 };  // init oscillator w/ std::sin(), 200 lut idx
     juce::dsp::Gain<float> gain;                                                    // declare gain
@@ -47,4 +48,7 @@ private:
     //============================================================================== ADSR+
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
+
+    //============================================================================== Audio Buffer
+    juce::AudioBuffer<float> sBuffer;
 };
