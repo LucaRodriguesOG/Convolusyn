@@ -24,6 +24,9 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    //============================================================================== Slider
+    void setSlider(juce::Slider& s);
+
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

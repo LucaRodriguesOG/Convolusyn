@@ -86,12 +86,15 @@ void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChan
 
     gain.setGainLinear(0.10f);
 
-    adsrParams.attack = 0.2f;                       // sets adsr parameters
-    adsrParams.decay = 0.2f;
-    adsrParams.sustain = 1.0f;
-    adsrParams.release = 1.0f;
+    isPrepared = true;
+}
+
+void Voice::updateADSR(const float a, const float d, const float s, const float r) {
+    
+    adsrParams.attack = a;                       // sets adsr parameters
+    adsrParams.decay = d;
+    adsrParams.sustain = s;
+    adsrParams.release = r;
 
     adsr.setParameters(adsrParams);                 // apply parameters to adsr
-
-    isPrepared = true;
 }

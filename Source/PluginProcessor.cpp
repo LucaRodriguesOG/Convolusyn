@@ -161,9 +161,14 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
 
     //============================================================================== Synth
     for (int i = 0; i < synth.getNumVoices(); i++) {
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i))) {
+        if (auto voice = dynamic_cast<Voice*>(synth.getVoice(i))) {
             // osc controls
             // adsr
+            auto& a = *apvts.getRawParameterValue("ATTACK");            // going to change to make less cpu intensive
+            auto& d = *apvts.getRawParameterValue("DECAY");
+            auto& s = *apvts.getRawParameterValue("SUSTAIN");
+            auto& r = *apvts.getRawParameterValue("RELEASE");
+            voice->updateADSR(a.load(), d.load(), s.load(), r.load());
             // lfo
         }
     }

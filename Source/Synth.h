@@ -34,6 +34,7 @@ public:
 
     // voice class
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
+    void updateADSR(const float a, const float d, const float s, const float r);
 
 private:
     bool isPrepared = false;
