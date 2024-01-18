@@ -2,6 +2,12 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Convolusyn\Source\Data">
+      <UniqueIdentifier>{E03F37C1-3827-0D1A-ECA8-7CF06DC4B418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Convolusyn\Source\UI">
+      <UniqueIdentifier>{2DD342F3-5E3D-E6E7-456A-D676AF6BFE7A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Convolusyn\Source">
       <UniqueIdentifier>{D4814A32-54AE-3A5A-26D2-754D372E0FE3}</UniqueIdentifier>
     </Filter>
@@ -609,6 +615,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Synth.cpp">
       <Filter>Convolusyn\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Data\ADSRData.cpp">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UI\ADSRComp.cpp">
+      <Filter>Convolusyn\Source\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
@@ -3056,6 +3068,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Synth.h">
       <Filter>Convolusyn\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Data\ADSRData.h">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UI\ADSRComp.h">
+      <Filter>Convolusyn\Source\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
