@@ -89,12 +89,6 @@ void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChan
     isPrepared = true;
 }
 
-void Voice::updateADSR(const float a, const float d, const float s, const float r) {
-    
-    adsrParams.attack = a;                       // sets adsr parameters
-    adsrParams.decay = d;
-    adsrParams.sustain = s;
-    adsrParams.release = r;
-
-    adsr.setParameters(adsrParams);                 // apply parameters to adsr
+void Voice::update(const float a, const float d, const float s, const float r) {
+    adsr.updateADSR(a, d, s, r);
 }

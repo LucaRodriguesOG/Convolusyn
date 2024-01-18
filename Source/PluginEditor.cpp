@@ -44,11 +44,7 @@ void ConvolusynAudioProcessorEditor::paint (juce::Graphics& g)
 }
 
 void ConvolusynAudioProcessorEditor::resized()
-{
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-    // set adsr bounds
-    
+{   
     // ADSR
     adsr.setBounds(getLocalBounds());
 }

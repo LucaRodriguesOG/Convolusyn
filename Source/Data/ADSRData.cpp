@@ -9,3 +9,13 @@
 */
 
 #include "ADSRData.h"
+
+void ADSRData::updateADSR(const float a, const float d, const float s, const float r) {
+
+    adsrParams.attack = a;                       // sets adsr parameters
+    adsrParams.decay = d;
+    adsrParams.sustain = s;
+    adsrParams.release = r;
+
+    setParameters(adsrParams);                   // apply parameters to adsr
+};

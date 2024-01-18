@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Data/ADSRData.h"
 
 class Sound : public juce::SynthesiserSound {
     
@@ -34,7 +35,7 @@ public:
 
     // voice class
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
-    void updateADSR(const float a, const float d, const float s, const float r);
+    void update(const float a, const float d, const float s, const float r);
 
 private:
     bool isPrepared = false;
@@ -47,8 +48,7 @@ private:
     // square eq: return x < 0.0f ? -1.0f : 1.0f;
 
     //============================================================================== ADSR+
-    juce::ADSR adsr;
-    juce::ADSR::Parameters adsrParams;
+    ADSRData adsr;
 
     //============================================================================== Audio Buffer
     juce::AudioBuffer<float> sBuffer;

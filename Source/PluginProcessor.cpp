@@ -168,7 +168,7 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             auto& d = *apvts.getRawParameterValue("DECAY");
             auto& s = *apvts.getRawParameterValue("SUSTAIN");
             auto& r = *apvts.getRawParameterValue("RELEASE");
-            voice->updateADSR(a.load(), d.load(), s.load(), r.load());
+            voice->update(a.load(), d.load(), s.load(), r.load());
             // lfo
         }
     }
