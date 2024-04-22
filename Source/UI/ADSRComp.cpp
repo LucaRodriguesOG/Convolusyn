@@ -56,19 +56,19 @@ void ADSRComp::paint (juce::Graphics& g)
     //g.drawText ("ADSRComp", getLocalBounds(),
     //            juce::Justification::centred, true);   // draw some placeholder text
 
-    g.fillAll(juce::Colours::black);
+    //g.fillAll(juce::Colours::black);
 }
 
 void ADSRComp::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-    const auto bounds = getLocalBounds().reduced(10);
+    const auto bounds = getLocalBounds();
     const auto pad = 10;
-    const auto sliderWidth = bounds.getWidth() / 16 - pad;
-    const auto sliderHeight = bounds.getHeight() / 8 - pad;
+    const auto sliderWidth = bounds.getWidth() / 4  - pad;
+    const auto sliderHeight = bounds.getHeight() - pad;
     const auto sliderStartX = 0;
-    const auto sliderStartY = bounds.getHeight() - pad * 8;//(sliderHeight / 2);
+    const auto sliderStartY = 0;//bounds.getHeight() - pad * 8;//(sliderHeight / 2);
 
     //gSlider.setBounds(getWidth() - 50, 25, 20, 100);
     aSlider.setBounds(sliderStartX + pad, sliderStartY, sliderWidth, sliderHeight);
@@ -78,12 +78,12 @@ void ADSRComp::resized()
 }
 
 void ADSRComp::setSlider(juce::Slider& s) {
-    s.setSliderStyle(juce::Slider::LinearBarVertical);
+    s.setSliderStyle(juce::Slider::RotaryVerticalDrag);
+    s.setRotaryParameters(0, juce::MathConstants<float>::pi * 2 / 3, true);
     //s.setRange(0.0, 1.0, .01);
-    s.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 90, 90);
+    s.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 15);
     s.setPopupDisplayEnabled(true, false, this);
-    //s.setTextValueSuffix(" Attack");
-    s.setValue(100);
+    //s.setTextValueSuffix(" ms");
 
     addAndMakeVisible(&s);
 }

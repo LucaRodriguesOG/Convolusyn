@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "UI/ADSRComp.h"
+#include "UI/OscComp.h"
 
 //==============================================================================
 /**
@@ -33,9 +34,8 @@ private:
     //============================================================================== Gain
     juce::Slider gSlider;
 
-    //============================================================================== OSC Select
-    juce::ComboBox oscSelect;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> oscAttachment;
+    //============================================================================== OSC
+    OscComp osc;
 
     //============================================================================== ADSR
     ADSRComp adsr;

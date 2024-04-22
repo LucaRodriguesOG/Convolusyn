@@ -19,7 +19,7 @@ bool Voice::canPlaySound(juce::SynthesiserSound* sound) {
 
 void Voice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
     adsr.noteOn();
-    osc1.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    osc.setWaveFrequency(midiNoteNumber);
 }
 
 void Voice::stopNote(float velocity, bool allowTailOff) {
@@ -55,12 +55,11 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSam
     // this will create an audio block, oscillator will add data to it, gain will turn it down
 
     juce::dsp::AudioBlock<float> audioBlock { sBuffer };                    // init audio block
-    osc1.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init osc replacing context w/ audio block
+    osc.getNextAudioBlock(audioBlock);                                      // init osc replacing context w/ audio block
 
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init gain replacing context w/ audio block
-
     adsr.applyEnvelopeToBuffer(sBuffer, 0, sBuffer.getNumSamples());        // init adsr (sBuffer is alias for audioBlock)
-                                                                            // bc osc1 and gain needed a contexted dsp Block
+                                                                            // bc osc and gain needed a contexted dsp Block
     
     for (int i = 0; i < outputBuffer.getNumChannels(); i++) {               // iterate through channels and add sample from
         outputBuffer.addFrom(i, startSample, sBuffer, i, 0, numSamples);    // sBuffer to outputBuffer
@@ -81,7 +80,7 @@ void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChan
     spec.sampleRate = sampleRate;
     spec.numChannels = outputChannels;
 
-    osc1.prepare(spec);                             // prepares osc w/ spec
+    osc.prepareToPlay(spec);                        // prepares osc w/ spec
     gain.prepare(spec);                             // prepares gain w/ spec
 
     gain.setGainLinear(0.10f);

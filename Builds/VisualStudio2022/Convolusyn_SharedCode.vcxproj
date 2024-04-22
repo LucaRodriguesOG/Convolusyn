@@ -143,7 +143,9 @@
     <ClCompile Include="..\..\Source\PluginEditor.cpp"/>
     <ClCompile Include="..\..\Source\Synth.cpp"/>
     <ClCompile Include="..\..\Source\Data\ADSRData.cpp"/>
+    <ClCompile Include="..\..\Source\Data\OscData.cpp"/>
     <ClCompile Include="..\..\Source\UI\ADSRComp.cpp"/>
+    <ClCompile Include="..\..\Source\UI\OscComp.cpp"/>
     <ClCompile Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -2429,7 +2431,9 @@
     <ClInclude Include="..\..\Source\PluginEditor.h"/>
     <ClInclude Include="..\..\Source\Synth.h"/>
     <ClInclude Include="..\..\Source\Data\ADSRData.h"/>
+    <ClInclude Include="..\..\Source\Data\OscData.h"/>
     <ClInclude Include="..\..\Source\UI\ADSRComp.h"/>
+    <ClInclude Include="..\..\Source\UI\OscComp.h"/>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

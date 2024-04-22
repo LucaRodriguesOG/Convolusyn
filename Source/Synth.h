@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "Data/ADSRData.h"
+#include "Data/OscData.h"
 
 class Sound : public juce::SynthesiserSound {
     
@@ -37,15 +38,16 @@ public:
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
     void update(const float a, const float d, const float s, const float r);
 
+    // osc
+    OscData& getOscillator() { return osc; }
+
 private:
     bool isPrepared = false;
 
     //============================================================================== Oscillator+
-    juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); }, 200 };  // init oscillator w/ std::sin(), 200 lut idx
+    //juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); }, 200 };  // init oscillator w/ std::sin(), 200 lut idx
+    OscData osc;
     juce::dsp::Gain<float> gain;                                                    // declare gain
-
-    // saw eq: return x / juce::MathConstants<float>::pi;
-    // square eq: return x < 0.0f ? -1.0f : 1.0f;
 
     //============================================================================== ADSR+
     ADSRData adsr;

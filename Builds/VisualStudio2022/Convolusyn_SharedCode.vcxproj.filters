@@ -619,7 +619,13 @@
     <ClCompile Include="..\..\Source\Data\ADSRData.cpp">
       <Filter>Convolusyn\Source\Data</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Data\OscData.cpp">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UI\ADSRComp.cpp">
+      <Filter>Convolusyn\Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UI\OscComp.cpp">
       <Filter>Convolusyn\Source\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
@@ -3072,7 +3078,13 @@
     <ClInclude Include="..\..\Source\Data\ADSRData.h">
       <Filter>Convolusyn\Source\Data</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Data\OscData.h">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\UI\ADSRComp.h">
+      <Filter>Convolusyn\Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UI\OscComp.h">
       <Filter>Convolusyn\Source\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
