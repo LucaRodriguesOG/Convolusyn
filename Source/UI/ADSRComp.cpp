@@ -78,7 +78,7 @@ void ADSRComp::resized()
 }
 
 void ADSRComp::setSlider(juce::Slider& s) {
-    s.setSliderStyle(juce::Slider::RotaryVerticalDrag);
+    s.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     s.setRotaryParameters(0, juce::MathConstants<float>::pi * 2 / 3, true);
     //s.setRange(0.0, 1.0, .01);
     s.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 15);

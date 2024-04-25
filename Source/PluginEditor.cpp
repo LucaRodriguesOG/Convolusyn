@@ -11,7 +11,7 @@
 
 //==============================================================================
 ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), osc (audioProcessor.apvts, "OSC1WAVETYPE"), adsr (audioProcessor.apvts)
+    : AudioProcessorEditor (&p), audioProcessor (p), osc (audioProcessor.apvts, "OSC1WAVETYPE", "FMAMT", "FMFREQ"), adsr(audioProcessor.apvts)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -47,8 +47,8 @@ void ConvolusynAudioProcessorEditor::resized()
 {   
     int pad = 10;
     // Oscillator
-    osc.setBounds(pad, pad, 100, 30);
+    osc.setBounds(pad, pad, getWidth() / 2, getHeight() / 4);
 
     // ADSR
-    adsr.setBounds(0, getHeight() * 3 / 4, getWidth() / 2, getHeight() / 4);
+    adsr.setBounds(pad, getHeight() * 3 / 4 - pad, getWidth() / 2, getHeight() / 4);
 }
