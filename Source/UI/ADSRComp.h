@@ -26,7 +26,6 @@ public:
 
 
 private:
-    void setSlider(juce::Slider& s);
     juce::Slider aSlider;
     juce::Slider dSlider;
     juce::Slider sSlider;
@@ -38,6 +37,14 @@ private:
     std::unique_ptr<SliderAttachment> dAttachment;
     std::unique_ptr<SliderAttachment> sAttachment;
     std::unique_ptr<SliderAttachment> rAttachment;
+
+    juce::Label aLabel{ "Attack", "A" };
+    juce::Label dLabel{ "Decay", "D" };
+    juce::Label sLabel{ "Sustain", "S" };
+    juce::Label rLabel{ "Release", "R" };
+
+    void setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,
+        juce::Label& label, std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>& attachment);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ADSRComp)
 };

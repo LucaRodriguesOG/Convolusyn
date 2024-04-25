@@ -16,21 +16,11 @@ ADSRComp::ADSRComp(juce::AudioProcessorValueTreeState& apvts)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
-    // 
-    // ADSR
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
-    // ATTACK
-    aAttachment = std::make_unique<SliderAttachment>(apvts, "ATTACK", aSlider);
-    setSlider(aSlider);
-    // DECAY
-    dAttachment = std::make_unique<SliderAttachment>(apvts, "DECAY", dSlider);
-    setSlider(dSlider);
-    // SUSTAIN
-    sAttachment = std::make_unique<SliderAttachment>(apvts, "SUSTAIN", sSlider);
-    setSlider(sSlider);
-    // RELEASE
-    rAttachment = std::make_unique<SliderAttachment>(apvts, "RELEASE", rSlider);
-    setSlider(rSlider);
+    
+    setSliderAndLabel(apvts, juce::String{ "ATTACK" }, aSlider, aLabel, aAttachment);
+    setSliderAndLabel(apvts, juce::String{ "DECAY" }, dSlider, dLabel, dAttachment);
+    setSliderAndLabel(apvts, juce::String{ "SUSTAIN" }, sSlider, sLabel, sAttachment);
+    setSliderAndLabel(apvts, juce::String{ "RELEASE" }, rSlider, rLabel, rAttachment);
 }
 
 ADSRComp::~ADSRComp()
@@ -49,7 +39,7 @@ void ADSRComp::paint (juce::Graphics& g)
     //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
     //g.setColour (juce::Colours::grey);
-    //g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
     //g.setColour (juce::Colours::white);
     //g.setFont (14.0f);
@@ -65,25 +55,35 @@ void ADSRComp::resized()
     // components that your component contains..
     const auto bounds = getLocalBounds();
     const auto pad = 10;
-    const auto sliderWidth = bounds.getWidth() / 4  - pad;
+    const auto sliderWidth = bounds.getWidth() / 4 - pad;
     const auto sliderHeight = bounds.getHeight() - pad;
     const auto sliderStartX = 0;
     const auto sliderStartY = 0;//bounds.getHeight() - pad * 8;//(sliderHeight / 2);
 
     //gSlider.setBounds(getWidth() - 50, 25, 20, 100);
     aSlider.setBounds(sliderStartX + pad, sliderStartY, sliderWidth, sliderHeight);
-    dSlider.setBounds(aSlider.getRight() + pad, sliderStartY, sliderWidth, sliderHeight);
-    sSlider.setBounds(dSlider.getRight() + pad, sliderStartY, sliderWidth, sliderHeight);
-    rSlider.setBounds(sSlider.getRight() + pad, sliderStartY, sliderWidth, sliderHeight);
+    aLabel.setBounds(aSlider.getX(), aSlider.getY(), aSlider.getWidth(), 15);
+
+    dSlider.setBounds(aSlider.getRight(), sliderStartY, sliderWidth, sliderHeight);
+    dLabel.setBounds(dSlider.getX(), dSlider.getY(), dSlider.getWidth(), 15);
+
+    sSlider.setBounds(dSlider.getRight(), sliderStartY, sliderWidth, sliderHeight);
+    sLabel.setBounds(sSlider.getX(), sSlider.getY(), sSlider.getWidth(), 15);
+
+    rSlider.setBounds(sSlider.getRight(), sliderStartY, sliderWidth, sliderHeight);
+    rLabel.setBounds(rSlider.getX(), rSlider.getY(), rSlider.getWidth(), 15);
 }
 
-void ADSRComp::setSlider(juce::Slider& s) {
-    s.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    s.setRotaryParameters(0, juce::MathConstants<float>::pi * 2 / 3, true);
-    //s.setRange(0.0, 1.0, .01);
-    s.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 15);
-    s.setPopupDisplayEnabled(true, false, this);
-    //s.setTextValueSuffix(" ms");
-
-    addAndMakeVisible(&s);
+void ADSRComp::setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,
+    juce::Label& label, std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>& attachment)
+{
+    slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    slider.setRotaryParameters(0, juce::MathConstants<float>::pi * 2 / 3, true);
+    slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 15);
+    addAndMakeVisible(slider);
+    attachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(apvts, id, slider);
+    label.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
+    label.setJustificationType(juce::Justification::centred);
+    label.setFont(15.0f);
+    addAndMakeVisible(label);
 }
