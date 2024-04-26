@@ -11,7 +11,12 @@
 
 //==============================================================================
 ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), osc (audioProcessor.apvts), adsr(audioProcessor.apvts)
+    : AudioProcessorEditor (&p), 
+    audioProcessor (p),
+    osc (audioProcessor.apvts), 
+    adsr(audioProcessor.apvts, "ADSR", "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
+    filter(audioProcessor.apvts),
+    lfoADSR(audioProcessor.apvts, "LFO ADSR", "LFOATTACK", "LFODECAY", "LFOSUSTAIN", "LFORELEASE")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -25,6 +30,12 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
 
     // ADSR
     addAndMakeVisible(adsr);
+
+    // FILTER
+    addAndMakeVisible(filter);
+
+    // LFO
+    addAndMakeVisible(lfoADSR);
 
 }
 
@@ -52,4 +63,10 @@ void ConvolusynAudioProcessorEditor::resized()
 
     // ADSR
     adsr.setBounds(pad, getHeight() * 3 / 4, getWidth() * 2 / 4 - pad, getHeight() / 4 - pad);
+
+    // Filter
+    filter.setBounds(getWidth() * 2 / 4, getHeight() * 3 / 4, getWidth() * 2 / 4 - pad, getHeight() / 4 - pad);
+
+    // LFO
+    lfoADSR.setBounds(getWidth() * 2 / 4, pad, getWidth() * 2 / 4 - pad, getHeight() / 4 - pad);
 }

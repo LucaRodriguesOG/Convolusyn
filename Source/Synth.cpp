@@ -13,32 +13,41 @@
 
 
 // pure virtuals
-bool Voice::canPlaySound(juce::SynthesiserSound* sound) {
+bool Voice::canPlaySound(juce::SynthesiserSound* sound) 
+{
     return dynamic_cast<juce::SynthesiserSound*>(sound) != nullptr;
 }
 
-void Voice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) {
+void Voice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) 
+{
     adsr.noteOn();
     osc.setWaveFrequency(midiNoteNumber);
+    lfoADSR.noteOn();
 }
 
-void Voice::stopNote(float velocity, bool allowTailOff) {
+void Voice::stopNote(float velocity, bool allowTailOff) 
+{
     adsr.noteOff();
+    lfoADSR.noteOff();
 
-    if (!allowTailOff || !adsr.isActive()) {
+    if (!allowTailOff || !adsr.isActive()) 
+    {
         clearCurrentNote();
     }
 }
 
-void Voice::pitchWheelMoved(int newPitchWheelValue) {
+void Voice::pitchWheelMoved(int newPitchWheelValue) 
+{
 
 }
 
-void Voice::controllerMoved(int controllerNumber, int newControllerValue) {
+void Voice::controllerMoved(int controllerNumber, int newControllerValue) 
+{
 
 }
 
-void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) {
+void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) 
+{
     
     // if applying to sBuffer, start from 0 to sBuffer.getNumSamples()
     // if applying to outputBuffer, start from startSample to numSamples.
@@ -50,16 +59,16 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSam
     }
 
     sBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true); // set size to exactly what we need, no reallocation
+    lfoADSR.applyEnvelopeToBuffer(sBuffer, 0, numSamples); // startSample?
     sBuffer.clear();
 
     // this will create an audio block, oscillator will add data to it, gain will turn it down
 
     juce::dsp::AudioBlock<float> audioBlock { sBuffer };                    // init audio block
     osc.getNextAudioBlock(audioBlock);                                      // init osc replacing context w/ audio block
-
+    adsr.applyEnvelopeToBuffer(sBuffer, 0, sBuffer.getNumSamples());        // init adsr (sBuffer is alias for audioBlock) bc osc and gain needed a contexted dsp Block
+    filter.process(sBuffer);                                                // init filter to process this block
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init gain replacing context w/ audio block
-    adsr.applyEnvelopeToBuffer(sBuffer, 0, sBuffer.getNumSamples());        // init adsr (sBuffer is alias for audioBlock)
-                                                                            // bc osc and gain needed a contexted dsp Block
     
     for (int i = 0; i < outputBuffer.getNumChannels(); i++) {               // iterate through channels and add sample from
         outputBuffer.addFrom(i, startSample, sBuffer, i, 0, numSamples);    // sBuffer to outputBuffer
@@ -71,23 +80,40 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSam
 }
 
 // voice class
-void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels) {
+void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels) 
+{
 
-    adsr.setSampleRate(sampleRate);
+    
 
     juce::dsp::ProcessSpec spec;                    // declare/init process spec
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
     spec.numChannels = outputChannels;
 
-    osc.prepareToPlay(spec);                        // prepares osc w/ spec
-    gain.prepare(spec);                             // prepares gain w/ spec
+    osc.prepareToPlay(spec);                                            
+    adsr.setSampleRate(sampleRate);                                     
+    filter.prepareToPlay(sampleRate, samplesPerBlock, outputChannels);
+    lfoADSR.setSampleRate(sampleRate);
 
+
+    gain.prepare(spec);                                                 
     gain.setGainLinear(0.10f);
 
     isPrepared = true;
 }
 
-void Voice::update(const float a, const float d, const float s, const float r) {
+void Voice::updateADSR(const float a, const float d, const float s, const float r) 
+{
     adsr.updateADSR(a, d, s, r);
+}
+
+void Voice::updateFilter(const int filterType, const float filterCutoff, const float filterResonance) 
+{
+    float lfo = lfoADSR.getNextSample();
+    filter.updateParams(filterType, filterCutoff, filterResonance, lfo);
+}
+
+void Voice::updateLFOADSR(const float a, const float d, const float s, const float r) 
+{
+    lfoADSR.updateADSR(a, d, s, r);
 }

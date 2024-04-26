@@ -13,8 +13,6 @@
 #include <JuceHeader.h>
 
 //==============================================================================
-/*
-*/
 class OscComp  : public juce::Component
 {
 public:

@@ -12,6 +12,7 @@
 #include "PluginProcessor.h"
 #include "UI/ADSRComp.h"
 #include "UI/OscComp.h"
+#include "UI/FilterComp.h"
 
 //==============================================================================
 /**
@@ -39,6 +40,12 @@ private:
 
     //============================================================================== ADSR
     ADSRComp adsr;
+
+    //============================================================================== Filter
+    FilterComp filter;
+
+    //============================================================================== LFO
+    ADSRComp lfoADSR;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };

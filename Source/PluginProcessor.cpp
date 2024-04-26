@@ -162,35 +162,49 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     //============================================================================== Synth
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<Voice*>(synth.getVoice(i))) {
-            // osc controls
+            // Osc Type and FM Mods
             auto& oscWave = *apvts.getRawParameterValue("OSC1WAVETYPE");
             auto& fmAmt = *apvts.getRawParameterValue("FMAMT");
             auto& fmFreq = *apvts.getRawParameterValue("FMFREQ");
 
-            // adsr
+            // ADSR
             auto& a = *apvts.getRawParameterValue("ATTACK");            // going to change to make less cpu intensive
             auto& d = *apvts.getRawParameterValue("DECAY");
             auto& s = *apvts.getRawParameterValue("SUSTAIN");
             auto& r = *apvts.getRawParameterValue("RELEASE");
 
-            // lfo
+            // Filter
+            auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
+            auto& filterCutoff = *apvts.getRawParameterValue("FILTERCUTOFF");
+            auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
 
-            // all updates
-            voice->update(a.load(), d.load(), s.load(), r.load());
-            voice->getOscillator().setFMParams(fmAmt, fmFreq);
+            // LFO
+            auto& aLFO = *apvts.getRawParameterValue("LFOATTACK");            // going to change to make less cpu intensive
+            auto& dLFO = *apvts.getRawParameterValue("LFODECAY");
+            auto& sLFO = *apvts.getRawParameterValue("LFOSUSTAIN");
+            auto& rLFO = *apvts.getRawParameterValue("LFORELEASE");
+
+            // All Updates
             voice->getOscillator().setWaveType(oscWave);
-
+            voice->getOscillator().setFMParams(fmAmt, fmFreq);
+            voice->updateADSR(a.load(), d.load(), s.load(), r.load());
+            voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load());
+            voice->updateLFOADSR(aLFO.load(), dLFO.load(), sLFO.load(), rLFO.load());
         }
     }
 
     //============================================================================== Midi
-    for (const juce::MidiMessageMetadata metadata : midiMessages) {
+    /*for (const juce::MidiMessageMetadata metadata : midiMessages) {
         if (metadata.numBytes == 3) {
             juce::Logger::writeToLog("Sample Time: " + juce::String(metadata.getMessage().getTimeStamp()));
         }
-    }
+    }*/
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    //============================================================================== Filter
+    /*filter.updateParams(filterType, filterCutoff, filterResonance);
+    filter.process(buffer);*/
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -247,18 +261,27 @@ juce::AudioProcessorValueTreeState::ParameterLayout ConvolusynAudioProcessor::cr
     // vector of parameters in our value tree
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    // adsr
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange{0.001f, 1.0f, 0.001f}, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange{0.001f, 1.0f, 0.001f}, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange{0.001f, 1.0f, 0.001f}, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange{0.001f, 1.0f, 0.001f}, 0.4f));
+    // ADSR
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
 
-    // waveforms
+    // Oscillator Waveforms and FM Mods
     params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC1WAVETYPE", "Osc 1 Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
-
-    // fm freq & fm amt
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FMAMT", "FM Amount", juce::NormalisableRange{ 0.0f, 1000.0f, 0.001f, 0.3f }, 0.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FMFREQ", "FM Frequency", juce::NormalisableRange{ 0.0f, 1000.0f, 0.001f, 0.3f }, 0.0f));
+
+    // Filter
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "Lowpass", "Highpass", "Bandpass" }, 0));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERCUTOFF", "Filter Cutoff", juce::NormalisableRange{ 20.0f, 20000.0f, 1.0f, 0.3f }, 20000.0f)); // 0.1f and 0.6f for last 2 of norm range
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERRESONANCE", "Filter Resonance", juce::NormalisableRange{ 0.05f, 10.0f, 0.001f }, 0.05f));
+
+    // LFO 1
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOATTACK", "LFO Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFODECAY", "LFO Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOSUSTAIN", "LFO Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFORELEASE", "LFO Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
 
     return {params.begin(), params.end()};
 }

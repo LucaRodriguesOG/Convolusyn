@@ -12,15 +12,12 @@
 #include "ADSRComp.h"
 
 //==============================================================================
-ADSRComp::ADSRComp(juce::AudioProcessorValueTreeState& apvts)
-{
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-    
-    setSliderAndLabel(apvts, juce::String{ "ATTACK" }, aSlider, aLabel, aAttachment);
-    setSliderAndLabel(apvts, juce::String{ "DECAY" }, dSlider, dLabel, dAttachment);
-    setSliderAndLabel(apvts, juce::String{ "SUSTAIN" }, sSlider, sLabel, sAttachment);
-    setSliderAndLabel(apvts, juce::String{ "RELEASE" }, rSlider, rLabel, rAttachment);
+ADSRComp::ADSRComp(juce::AudioProcessorValueTreeState& apvts, juce::String name, juce::String aID, juce::String dID, juce::String sID, juce::String rID)
+{    
+    setSliderAndLabel(apvts, aID, aSlider, aLabel, aAttachment);
+    setSliderAndLabel(apvts, dID, dSlider, dLabel, dAttachment);
+    setSliderAndLabel(apvts, sID, sSlider, sLabel, sAttachment);
+    setSliderAndLabel(apvts, rID, rSlider, rLabel, rAttachment);
 }
 
 ADSRComp::~ADSRComp()
@@ -40,7 +37,7 @@ void ADSRComp::paint (juce::Graphics& g)
 
     //g.setColour (juce::Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
+    g.drawText(name, getLocalBounds(), juce::Justification::left);
     //g.setColour (juce::Colours::white);
     //g.setFont (14.0f);
     //g.drawText ("ADSRComp", getLocalBounds(),

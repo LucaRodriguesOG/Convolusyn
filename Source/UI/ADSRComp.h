@@ -18,7 +18,7 @@
 class ADSRComp  : public juce::Component
 {
 public:
-    ADSRComp(juce::AudioProcessorValueTreeState& apvts);
+    ADSRComp(juce::AudioProcessorValueTreeState& apvts, juce::String name, juce::String aID, juce::String dID, juce::String sID, juce::String rID);
     ~ADSRComp() override;
 
     void paint (juce::Graphics&) override;
@@ -42,6 +42,8 @@ private:
     juce::Label dLabel{ "Decay", "D" };
     juce::Label sLabel{ "Sustain", "S" };
     juce::Label rLabel{ "Release", "R" };
+
+    juce::String name{ "" };
 
     void setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,
         juce::Label& label, std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>& attachment);

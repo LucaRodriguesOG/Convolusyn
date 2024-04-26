@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "Data/ADSRData.h"
 #include "Data/OscData.h"
+#include "Data/FilterData.h"
 
 class Sound : public juce::SynthesiserSound {
     
@@ -36,21 +37,36 @@ public:
 
     // voice class
     void prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels);
-    void update(const float a, const float d, const float s, const float r);
 
-    // osc
+    // Osc
     OscData& getOscillator() { return osc; }
+
+    // ADSR
+    void updateADSR(const float a, const float d, const float s, const float r);
+
+    // Filter
+    void updateFilter(const int filterType, const float filterCutoff, const float filterResonance);
+
+    // LFO
+    void updateLFOADSR(const float a, const float d, const float s, const float r);
 
 private:
     bool isPrepared = false;
 
-    //============================================================================== Oscillator+
-    //juce::dsp::Oscillator<float> osc1{ [](float x) { return std::sin(x); }, 200 };  // init oscillator w/ std::sin(), 200 lut idx
+    //============================================================================== Oscillator
     OscData osc;
-    juce::dsp::Gain<float> gain;                                                    // declare gain
 
-    //============================================================================== ADSR+
+    //============================================================================== ADSR
     ADSRData adsr;
+
+    //============================================================================== Filter
+    FilterData filter;
+
+    //============================================================================== LFO ADSR
+    ADSRData lfoADSR;
+
+    //============================================================================== Gain
+    juce::dsp::Gain<float> gain;
 
     //============================================================================== Audio Buffer
     juce::AudioBuffer<float> sBuffer;
