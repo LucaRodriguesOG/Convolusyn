@@ -16,7 +16,7 @@
 class OscComp  : public juce::Component
 {
 public:
-    OscComp(juce::AudioProcessorValueTreeState& apvts);
+    OscComp(juce::AudioProcessorValueTreeState& apvts, juce::String name, juce::String waveID);
     ~OscComp() override;
 
     void paint (juce::Graphics&) override;
@@ -31,9 +31,10 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fmAmtAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> fmFreqAttachment;
     
-    juce::Label oscWaveLabel{ "Osc Wave Box", "Oscillator 1" };
     juce::Label fmAmtLabel{ "FM Amt", "FM Amt" };
     juce::Label fmFreqLabel{ "FM Freq", "FM Freq" };
+
+    juce::String name{ "" }; 
 
     void setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider, 
         juce::Label& label, std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>& attachment);

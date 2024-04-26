@@ -18,6 +18,7 @@ ADSRComp::ADSRComp(juce::AudioProcessorValueTreeState& apvts, juce::String name,
     setSliderAndLabel(apvts, dID, dSlider, dLabel, dAttachment);
     setSliderAndLabel(apvts, sID, sSlider, sLabel, sAttachment);
     setSliderAndLabel(apvts, rID, rSlider, rLabel, rAttachment);
+    this->name = name;
 }
 
 ADSRComp::~ADSRComp()
@@ -26,24 +27,9 @@ ADSRComp::~ADSRComp()
 
 void ADSRComp::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    //g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-    g.drawText(name, getLocalBounds(), juce::Justification::left);
-    //g.setColour (juce::Colours::white);
-    //g.setFont (14.0f);
-    //g.drawText ("ADSRComp", getLocalBounds(),
-    //            juce::Justification::centred, true);   // draw some placeholder text
-
-    //g.fillAll(juce::Colours::black);
+    g.setColour(juce::Colours::white);
+    g.drawRect(getLocalBounds(), 1);   // draw an outline around the component
+    g.drawText(name, getLocalBounds().reduced(5), juce::Justification::centredTop);
 }
 
 void ADSRComp::resized()
@@ -53,21 +39,20 @@ void ADSRComp::resized()
     const auto bounds = getLocalBounds();
     const auto pad = 10;
     const auto sliderWidth = bounds.getWidth() / 4 - pad;
-    const auto sliderHeight = bounds.getHeight() - pad;
-    const auto sliderStartX = 0;
-    const auto sliderStartY = 0;//bounds.getHeight() - pad * 8;//(sliderHeight / 2);
+    const auto sliderHeight = bounds.getHeight() / 2;
+    const auto sliderStartX = pad / 2;
+    const auto sliderStartY = bounds.getHeight() * 1 / 4;//bounds.getHeight() - pad * 8;//(sliderHeight / 2);
 
-    //gSlider.setBounds(getWidth() - 50, 25, 20, 100);
-    aSlider.setBounds(sliderStartX + pad, sliderStartY, sliderWidth, sliderHeight);
+    aSlider.setBounds(sliderStartX, sliderStartY, sliderWidth, sliderHeight);
     aLabel.setBounds(aSlider.getX(), aSlider.getY(), aSlider.getWidth(), 15);
 
-    dSlider.setBounds(aSlider.getRight(), sliderStartY, sliderWidth, sliderHeight);
+    dSlider.setBounds(aSlider.getRight() + pad, sliderStartY, sliderWidth, sliderHeight);
     dLabel.setBounds(dSlider.getX(), dSlider.getY(), dSlider.getWidth(), 15);
 
-    sSlider.setBounds(dSlider.getRight(), sliderStartY, sliderWidth, sliderHeight);
+    sSlider.setBounds(dSlider.getRight() + pad, sliderStartY, sliderWidth, sliderHeight);
     sLabel.setBounds(sSlider.getX(), sSlider.getY(), sSlider.getWidth(), 15);
 
-    rSlider.setBounds(sSlider.getRight(), sliderStartY, sliderWidth, sliderHeight);
+    rSlider.setBounds(sSlider.getRight() + pad, sliderStartY, sliderWidth, sliderHeight);
     rLabel.setBounds(rSlider.getX(), rSlider.getY(), rSlider.getWidth(), 15);
 }
 

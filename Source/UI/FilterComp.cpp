@@ -12,19 +12,23 @@
 #include "FilterComp.h"
 
 //==============================================================================
-FilterComp::FilterComp(juce::AudioProcessorValueTreeState& apvts)
+FilterComp::FilterComp(juce::AudioProcessorValueTreeState& apvts, juce::String name)
 {
     juce::StringArray choices{ "Lowpass", "Highpass", "Bandpass" };
     filterTypeBox.addItemList(choices, 1);
     addAndMakeVisible(filterTypeBox);
     filterTypeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(apvts, "FILTERTYPE", filterTypeBox);
-    filterTypeLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
-    filterTypeLabel.setJustificationType(juce::Justification::centred);
-    filterTypeLabel.setFont(15.0f);
-    addAndMakeVisible(filterTypeLabel);
 
     setSliderAndLabel(apvts, juce::String{ "FILTERCUTOFF" }, filterCutoffSlider, filterCutoffLabel, filterCutoffAttachment);
     setSliderAndLabel(apvts, juce::String{ "FILTERRESONANCE" }, filterResonanceSlider, filterResonanceLabel, filterResonanceAttachment);
+
+    filterButton.setToggleable(true);
+    filterButton.setColour(juce::ToggleButton::ColourIds::tickColourId, juce::Colours::red);
+    //filterButton.setColour(juce::ToggleButton::ColourIds::tickDisabledColourId, juce::Colours::black);
+    addAndMakeVisible(filterButton);
+    filterButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(apvts, "FILTERBUTTON", filterButton);
+
+    this->name = name;
 }
 
 FilterComp::~FilterComp()
@@ -33,15 +37,9 @@ FilterComp::~FilterComp()
 
 void FilterComp::paint (juce::Graphics& g)
 {
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    //g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    //g.setColour (juce::Colours::white);
-    //g.setFont (14.0f);
-    //g.drawText ("FilterComp", getLocalBounds(),
-    //            juce::Justification::centred, true);   // draw some placeholder text
+    g.setColour(juce::Colours::white);
+    g.drawRect(getLocalBounds(), 1);   // draw an outline around the component
+    g.drawText(name, getLocalBounds().reduced(5), juce::Justification::centredTop);
 }
 
 void FilterComp::resized()
@@ -50,13 +48,15 @@ void FilterComp::resized()
     const auto pad = 10;
 
     filterTypeBox.setBounds(getWidth() * 1 / 4, 25, getWidth() / 2, getHeight() / 4 - pad);
-    filterTypeLabel.setBounds(filterTypeBox.getX(), filterTypeBox.getY() - 25, filterTypeBox.getWidth(), 15);
+    //filterTypeLabel.setBounds(filterTypeBox.getX(), filterTypeBox.getY() - 25, filterTypeBox.getWidth(), 15);
 
     filterCutoffSlider.setBounds(getWidth() * 1 / 4, getHeight() / 2, getWidth() / 4, getHeight() / 2 - pad);
     filterCutoffLabel.setBounds(filterCutoffSlider.getX(), filterCutoffSlider.getY() - 11, filterCutoffSlider.getWidth(), 15);
 
     filterResonanceSlider.setBounds(getWidth() * 2 / 4, getHeight() / 2, getWidth() / 4, getHeight() / 2 - pad);
     filterResonanceLabel.setBounds(filterResonanceSlider.getX(), filterResonanceSlider.getY() - 11, filterResonanceSlider.getWidth(), 15);
+
+    filterButton.setBounds(0, 0, 25, 25);
 }
 
 void FilterComp::setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,

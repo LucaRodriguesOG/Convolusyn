@@ -15,7 +15,7 @@
 //==============================================================================
 /*
 */
-class ADSRComp  : public juce::Component
+class ADSRComp : public juce::Component
 {
 public:
     ADSRComp(juce::AudioProcessorValueTreeState& apvts, juce::String name, juce::String aID, juce::String dID, juce::String sID, juce::String rID);

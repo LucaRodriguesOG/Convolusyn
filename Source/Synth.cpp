@@ -67,7 +67,8 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSam
     juce::dsp::AudioBlock<float> audioBlock { sBuffer };                    // init audio block
     osc.getNextAudioBlock(audioBlock);                                      // init osc replacing context w/ audio block
     adsr.applyEnvelopeToBuffer(sBuffer, 0, sBuffer.getNumSamples());        // init adsr (sBuffer is alias for audioBlock) bc osc and gain needed a contexted dsp Block
-    filter.process(sBuffer);                                                // init filter to process this block
+
+    //filter.process(sBuffer);                                                // init filter to process this block
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));    // init gain replacing context w/ audio block
     
     for (int i = 0; i < outputBuffer.getNumChannels(); i++) {               // iterate through channels and add sample from
@@ -82,9 +83,6 @@ void Voice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSam
 // voice class
 void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChannels) 
 {
-
-    
-
     juce::dsp::ProcessSpec spec;                    // declare/init process spec
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;

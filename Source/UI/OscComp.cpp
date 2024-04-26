@@ -12,7 +12,7 @@
 #include "OscComp.h"
 
 //==============================================================================
-OscComp::OscComp(juce::AudioProcessorValueTreeState& apvts)
+OscComp::OscComp(juce::AudioProcessorValueTreeState& apvts, juce::String name, juce::String waveID)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
@@ -20,14 +20,12 @@ OscComp::OscComp(juce::AudioProcessorValueTreeState& apvts)
     juce::StringArray choices{ "Sine", "Saw", "Square" };
     oscWaveBox.addItemList(choices, 1);
     addAndMakeVisible(oscWaveBox);
-    oscWaveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(apvts, "OSC1WAVETYPE", oscWaveBox);
-    oscWaveLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
-    oscWaveLabel.setJustificationType(juce::Justification::centred);
-    oscWaveLabel.setFont(15.0f);
-    addAndMakeVisible(oscWaveLabel);
+    oscWaveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(apvts, waveID, oscWaveBox);
 
     setSliderAndLabel(apvts, juce::String { "FMAMT" }, fmAmtSlider, fmAmtLabel, fmAmtAttachment);
     setSliderAndLabel(apvts, juce::String{ "FMFREQ" }, fmFreqSlider, fmFreqLabel, fmFreqAttachment);
+
+    this->name = name;
 }
 
 OscComp::~OscComp()
@@ -36,17 +34,9 @@ OscComp::~OscComp()
 
 void OscComp::paint (juce::Graphics& g)
 {
-    //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    //g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    //g.setColour (juce::Colours::white);
-    //g.setFont (14.0f);
-    //g.drawText ("OscComp", getLocalBounds(),
-    //            juce::Justification::centred, true);   // draw some placeholder text
-
-    //g.fillAll(juce::Colours::white);
+    g.setColour(juce::Colours::white);
+    g.drawRect(getLocalBounds(), 1);   // draw an outline around the component
+    g.drawText(name, getLocalBounds().reduced(5), juce::Justification::centredTop);
 }
 
 void OscComp::resized()
@@ -55,7 +45,6 @@ void OscComp::resized()
     const auto pad = 10;
 
     oscWaveBox.setBounds(getWidth() * 1/4, 25, getWidth() / 2, getHeight() / 4 - pad);
-    oscWaveLabel.setBounds(oscWaveBox.getX(), oscWaveBox.getY() - 25, oscWaveBox.getWidth(), 15);
 
     fmAmtSlider.setBounds(getWidth() * 1/4, getHeight() / 2, getWidth() / 4, getHeight() / 2 - pad);
     fmAmtLabel.setBounds(fmAmtSlider.getX(), fmAmtSlider.getY() - 11, fmAmtSlider.getWidth(), 15);

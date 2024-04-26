@@ -177,12 +177,13 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
             auto& filterCutoff = *apvts.getRawParameterValue("FILTERCUTOFF");
             auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
+            auto& filterButton = *apvts.getRawParameterValue("FILTERBUTTON");
 
             // LFO
-            auto& aLFO = *apvts.getRawParameterValue("LFOATTACK");            // going to change to make less cpu intensive
-            auto& dLFO = *apvts.getRawParameterValue("LFODECAY");
-            auto& sLFO = *apvts.getRawParameterValue("LFOSUSTAIN");
-            auto& rLFO = *apvts.getRawParameterValue("LFORELEASE");
+            auto& aLFO = *apvts.getRawParameterValue("FATTACK");            // going to change to make less cpu intensive
+            auto& dLFO = *apvts.getRawParameterValue("FDECAY");
+            auto& sLFO = *apvts.getRawParameterValue("FSUSTAIN");
+            auto& rLFO = *apvts.getRawParameterValue("FRELEASE");
 
             // All Updates
             voice->getOscillator().setWaveType(oscWave);
@@ -276,12 +277,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout ConvolusynAudioProcessor::cr
     params.push_back(std::make_unique<juce::AudioParameterChoice>("FILTERTYPE", "Filter Type", juce::StringArray{ "Lowpass", "Highpass", "Bandpass" }, 0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERCUTOFF", "Filter Cutoff", juce::NormalisableRange{ 20.0f, 20000.0f, 1.0f, 0.3f }, 20000.0f)); // 0.1f and 0.6f for last 2 of norm range
     params.push_back(std::make_unique<juce::AudioParameterFloat>("FILTERRESONANCE", "Filter Resonance", juce::NormalisableRange{ 0.05f, 10.0f, 0.001f }, 0.05f));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("FILTERBUTTON", "Filter Button", false));
 
     // LFO 1
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOATTACK", "LFO Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFODECAY", "LFO Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOSUSTAIN", "LFO Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFORELEASE", "LFO Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FATTACK", "LFO Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FDECAY", "LFO Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FSUSTAIN", "LFO Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FRELEASE", "LFO Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
 
     return {params.begin(), params.end()};
 }

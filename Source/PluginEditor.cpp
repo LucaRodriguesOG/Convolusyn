@@ -13,10 +13,10 @@
 ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioProcessor& p)
     : AudioProcessorEditor (&p), 
     audioProcessor (p),
-    osc (audioProcessor.apvts), 
-    adsr(audioProcessor.apvts, "ADSR", "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
-    filter(audioProcessor.apvts),
-    lfoADSR(audioProcessor.apvts, "LFO ADSR", "LFOATTACK", "LFODECAY", "LFOSUSTAIN", "LFORELEASE")
+    osc(audioProcessor.apvts, "OSC 1", "OSC1WAVETYPE"),
+    adsr(audioProcessor.apvts, "OSC ADSR", "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
+    filter(audioProcessor.apvts, "FILTER"),
+    lfoADSR(audioProcessor.apvts, "FILTER ADSR", "FATTACK", "FDECAY", "FSUSTAIN", "FRELEASE")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -56,17 +56,21 @@ void ConvolusynAudioProcessorEditor::paint (juce::Graphics& g)
 
 void ConvolusynAudioProcessorEditor::resized()
 {   
-    int pad = 10;
+    int padW = 10;
+    int padH = 10;
+    int moduleWidth = getWidth() / 3 - padW;
+    int moduleHeight = getHeight() / 3 - padH;
 
     // Oscillator
-    osc.setBounds(pad, pad, getWidth() * 2 / 4 - pad, getHeight() / 4 - pad);
+    osc.setBounds(padW, padH, moduleWidth, moduleHeight);
 
     // ADSR
-    adsr.setBounds(pad, getHeight() * 3 / 4, getWidth() * 2 / 4 - pad, getHeight() / 4 - pad);
+    adsr.setBounds(padW, moduleHeight * 2 + padH * 2, moduleWidth, moduleHeight);
 
     // Filter
-    filter.setBounds(getWidth() * 2 / 4, getHeight() * 3 / 4, getWidth() * 2 / 4 - pad, getHeight() / 4 - pad);
+    //filter.setBounds(moduleWidth + padW * 3 / 2, moduleHeight + padH, moduleWidth, moduleHeight); // sets module in the middle
+    filter.setBounds(moduleWidth * 2 + padW * 2, padH, moduleWidth, moduleHeight);
 
     // LFO
-    lfoADSR.setBounds(getWidth() * 2 / 4, pad, getWidth() * 2 / 4 - pad, getHeight() / 4 - pad);
+    lfoADSR.setBounds(moduleWidth * 2 + padW * 2, moduleHeight * 2 + padH * 2, moduleWidth, moduleHeight);
 }
