@@ -65,12 +65,12 @@ void ConvolusynAudioProcessorEditor::resized()
     osc.setBounds(padW, padH, moduleWidth, moduleHeight);
 
     // ADSR
-    adsr.setBounds(padW, moduleHeight * 2 + padH * 2, moduleWidth, moduleHeight);
+    adsr.setBounds(padW, getHeight() - moduleHeight - padH, moduleWidth, moduleHeight);
 
     // Filter
     //filter.setBounds(moduleWidth + padW * 3 / 2, moduleHeight + padH, moduleWidth, moduleHeight); // sets module in the middle
-    filter.setBounds(moduleWidth * 2 + padW * 2, padH, moduleWidth, moduleHeight);
+    filter.setBounds(getWidth() - moduleWidth - padW, padH, moduleWidth, moduleHeight);
 
     // LFO
-    lfoADSR.setBounds(moduleWidth * 2 + padW * 2, moduleHeight * 2 + padH * 2, moduleWidth, moduleHeight);
+    lfoADSR.setBounds(getWidth() - moduleWidth - padW, getHeight() - moduleHeight - padH, moduleWidth, moduleHeight);
 }
