@@ -44,6 +44,12 @@ public:
     // ADSR
     void updateADSR(const float a, const float d, const float s, const float r);
 
+    // Filter
+    void updateFilter(const int filterType, const float filterCutoff, const float filterResonance);
+
+    // LFO
+    void updateLFOADSR(const float a, const float d, const float s, const float r);
+
 private:
     bool isPrepared = false;
 
@@ -54,10 +60,10 @@ private:
     ADSRData adsr;
 
     //============================================================================== Filter
-    //FilterData filter;
+    FilterData filter;
 
-    //============================================================================== Filter ADSR
-    //ADSRData fADSR;
+    //============================================================================== LFO ADSR
+    ADSRData lfoADSR;
 
     //============================================================================== Gain
     juce::dsp::Gain<float> gain;

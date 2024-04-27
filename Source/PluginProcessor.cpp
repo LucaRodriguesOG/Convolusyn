@@ -110,7 +110,6 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
             voice->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
         }
     }
-    filter.prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
 }
 
 void ConvolusynAudioProcessor::releaseResources()
@@ -174,27 +173,24 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             auto& s = *apvts.getRawParameterValue("SUSTAIN");
             auto& r = *apvts.getRawParameterValue("RELEASE");
 
-            // Synth Updates
-            voice->getOscillator().setWaveType(oscWave);
-            voice->getOscillator().setFMParams(fmAmt, fmFreq);
-            voice->updateADSR(a.load(), d.load(), s.load(), r.load());
-
             // Filter
             auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
             auto& filterCutoff = *apvts.getRawParameterValue("FILTERCUTOFF");
             auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
             auto& filterButton = *apvts.getRawParameterValue("FILTERBUTTON");
 
-            // Filter ADSR
-            //auto& aF = *apvts.getRawParameterValue("FATTACK");            // going to change to make less cpu intensive
-            //auto& dF = *apvts.getRawParameterValue("FDECAY");             // need to implement a midi handler?
-            //auto& sF = *apvts.getRawParameterValue("FSUSTAIN");
-            //auto& rF = *apvts.getRawParameterValue("FRELEASE");
+            // LFO
+            auto& aLFO = *apvts.getRawParameterValue("FATTACK");            // going to change to make less cpu intensive
+            auto& dLFO = *apvts.getRawParameterValue("FDECAY");
+            auto& sLFO = *apvts.getRawParameterValue("FSUSTAIN");
+            auto& rLFO = *apvts.getRawParameterValue("FRELEASE");
 
-            if (filterButton) {
-                filter.updateParams(filterType, filterCutoff, filterResonance);
-                filter.process(buffer);
-            }
+            // All Updates
+            voice->getOscillator().setWaveType(oscWave);
+            voice->getOscillator().setFMParams(fmAmt, fmFreq);
+            voice->updateADSR(a.load(), d.load(), s.load(), r.load());
+            voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load());
+            voice->updateLFOADSR(aLFO.load(), dLFO.load(), sLFO.load(), rLFO.load());
         }
     }
 
@@ -208,15 +204,8 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
     //============================================================================== Filter
-    auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
-    auto& filterCutoff = *apvts.getRawParameterValue("FILTERCUTOFF");
-    auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
-    auto& filterButton = *apvts.getRawParameterValue("FILTERBUTTON");
-    if (filterButton) {
-        filter.updateParams(filterType, filterCutoff, filterResonance);
-        filter.process(buffer);
-    }
-    
+    /*filter.updateParams(filterType, filterCutoff, filterResonance);
+    filter.process(buffer);*/
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -291,10 +280,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout ConvolusynAudioProcessor::cr
     params.push_back(std::make_unique<juce::AudioParameterBool>("FILTERBUTTON", "Filter Button", false));
 
     // LFO 1
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FATTACK", "Filter Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FDECAY", "Filter Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FSUSTAIN", "Filter Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FRELEASE", "Filter Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FATTACK", "LFO Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FDECAY", "LFO Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FSUSTAIN", "LFO Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("FRELEASE", "LFO Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
 
     return {params.begin(), params.end()};
 }

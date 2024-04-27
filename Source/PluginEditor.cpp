@@ -16,7 +16,7 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     osc(audioProcessor.apvts, "OSC 1", "OSC1WAVETYPE"),
     adsr(audioProcessor.apvts, "OSC ADSR", "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
     filter(audioProcessor.apvts, "FILTER"),
-    fADSR(audioProcessor.apvts, "FILTER ADSR", "FATTACK", "FDECAY", "FSUSTAIN", "FRELEASE")
+    lfoADSR(audioProcessor.apvts, "FILTER ADSR", "FATTACK", "FDECAY", "FSUSTAIN", "FRELEASE")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -35,7 +35,7 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     addAndMakeVisible(filter);
 
     // LFO
-    addAndMakeVisible(fADSR);
+    addAndMakeVisible(lfoADSR);
 
 }
 
@@ -49,8 +49,8 @@ void ConvolusynAudioProcessorEditor::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    //g.setColour (juce::Colours::white);
-    //g.setFont (15.0f);
+    g.setColour (juce::Colours::white);
+    g.setFont (15.0f);
     //g.drawFittedText ("Volume", (getWidth() / 2) - 40, 0, getWidth(), 30, juce::Justification::centred, 1); // FIXME: location of volume text
 }
 
@@ -72,5 +72,5 @@ void ConvolusynAudioProcessorEditor::resized()
     filter.setBounds(moduleWidth * 2 + padW * 2, padH, moduleWidth, moduleHeight);
 
     // LFO
-    fADSR.setBounds(moduleWidth * 2 + padW * 2, moduleHeight * 2 + padH * 2, moduleWidth, moduleHeight);
+    lfoADSR.setBounds(moduleWidth * 2 + padW * 2, moduleHeight * 2 + padH * 2, moduleWidth, moduleHeight);
 }

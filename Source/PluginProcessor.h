@@ -10,7 +10,6 @@
 
 #include <JuceHeader.h>
 #include "Synth.h"
-#include "Data/FilterData.h"
 
 //==============================================================================
 /**
@@ -65,10 +64,6 @@ public:
 private:
     //============================================================================== Synth
     juce::Synthesiser synth;
-
-    //============================================================================== Filter
-    FilterData filter;
-    ADSRData fADSR;
 
     //============================================================================== Value Tree State
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();

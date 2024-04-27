@@ -45,7 +45,7 @@ private:
     FilterComp filter;
 
     //============================================================================== LFO
-    ADSRComp fADSR;
+    ADSRComp lfoADSR;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };
