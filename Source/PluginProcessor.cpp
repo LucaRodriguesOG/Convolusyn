@@ -185,10 +185,6 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             voice->getOscillator().setWaveType(oscWave);
             voice->getOscillator().setFMParams(fmAmt, fmFreq);
             voice->updateADSR(a.load(), d.load(), s.load(), r.load());
-            //voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load());
-            //voice->updateLFOADSR(aLFO.load(), dLFO.load(), sLFO.load(), rLFO.load());
-
-            // TODO: put filter outside of the voice class again, or find out how to make the button work with the filter.process() in synth class
         }
     }
 
