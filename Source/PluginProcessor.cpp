@@ -110,6 +110,8 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
             voice->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
         }
     }
+
+    filter.prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
 }
 
 void ConvolusynAudioProcessor::releaseResources()
@@ -173,12 +175,6 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             auto& s = *apvts.getRawParameterValue("SUSTAIN");
             auto& r = *apvts.getRawParameterValue("RELEASE");
 
-            // Filter
-            auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
-            auto& filterCutoff = *apvts.getRawParameterValue("FILTERCUTOFF");
-            auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
-            auto& filterButton = *apvts.getRawParameterValue("FILTERBUTTON");
-
             // LFO
             auto& aLFO = *apvts.getRawParameterValue("FATTACK");            // going to change to make less cpu intensive
             auto& dLFO = *apvts.getRawParameterValue("FDECAY");
@@ -189,8 +185,8 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             voice->getOscillator().setWaveType(oscWave);
             voice->getOscillator().setFMParams(fmAmt, fmFreq);
             voice->updateADSR(a.load(), d.load(), s.load(), r.load());
-            voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load());
-            voice->updateLFOADSR(aLFO.load(), dLFO.load(), sLFO.load(), rLFO.load());
+            //voice->updateFilter(filterType.load(), filterCutoff.load(), filterResonance.load());
+            //voice->updateLFOADSR(aLFO.load(), dLFO.load(), sLFO.load(), rLFO.load());
 
             // TODO: put filter outside of the voice class again, or find out how to make the button work with the filter.process() in synth class
         }
@@ -206,8 +202,17 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
     //============================================================================== Filter
-    /*filter.updateParams(filterType, filterCutoff, filterResonance);
-    filter.process(buffer);*/
+    auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
+    auto& filterCutoff = *apvts.getRawParameterValue("FILTERCUTOFF");
+    auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
+    auto& filterButton = *apvts.getRawParameterValue("FILTERBUTTON");
+
+    filter.updateParams(filterType, filterCutoff, filterResonance);
+    if (filterButton) 
+    {
+        filter.process(buffer);
+    }
+    
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...

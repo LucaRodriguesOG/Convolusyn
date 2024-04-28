@@ -65,6 +65,9 @@ private:
     //============================================================================== Synth
     juce::Synthesiser synth;
 
+    //============================================================================== Filter
+    FilterData filter;
+
     //============================================================================== Value Tree State
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
 
