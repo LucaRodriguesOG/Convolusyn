@@ -29,6 +29,7 @@
         <FILE id="s7FAuC" name="FilterComp.h" compile="0" resource="0" file="Source/UI/FilterComp.h"/>
         <FILE id="c6Q2FV" name="OscComp.cpp" compile="1" resource="0" file="Source/UI/OscComp.cpp"/>
         <FILE id="P9BCpU" name="OscComp.h" compile="0" resource="0" file="Source/UI/OscComp.h"/>
+        <FILE id="YKM93d" name="UI_Global.h" compile="0" resource="0" file="Source/UI/UI_Global.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

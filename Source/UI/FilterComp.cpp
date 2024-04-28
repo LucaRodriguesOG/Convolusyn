@@ -23,13 +23,8 @@ FilterComp::FilterComp(juce::AudioProcessorValueTreeState& apvts, juce::String n
     setSliderAndLabel(apvts, juce::String{ "FILTERRESONANCE" }, filterResonanceSlider, filterResonanceLabel, filterResonanceAttachment);
 
     filterButton.setToggleable(true);
-    filterButton.setColour(juce::ToggleButton::ColourIds::tickColourId, juce::Colour::Colour::fromFloatRGBA(0.0f, 1.0f, 1.0f, 1.0f));
     addAndMakeVisible(filterButton);
     filterButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(apvts, "FILTERBUTTON", filterButton);
-    /*filterButton.onClick = [this]
-        {
-            on = !on;
-        };*/
 
     this->name = name;
 }
@@ -40,21 +35,8 @@ FilterComp::~FilterComp()
 
 void FilterComp::paint (juce::Graphics& g)
 {   
-    /*if (on)
-    {
-        juce::Colour c1 = juce::Colour::Colour::fromFloatRGBA(0.0f, 0.5f, 0.3f, .7f);
-        juce::Colour c2 = juce::Colour::Colour::fromFloatRGBA(0.5f, 0.0f, 0.5f, .7f);
-        g.setGradientFill(juce::ColourGradient(c1, 0, 0, c2, getWidth(), getHeight(), false));
-        g.fillAll();
-    }
-    else
-    {
-        g.fillAll(juce::Colour::Colour::fromFloatRGBA(0.1f, 0.1f, 0.1f, 1.0f));
-    }*/
-    
-    juce::Colour c1 = juce::Colour::Colour::fromFloatRGBA(0.0f, 0.5f, 0.3f, .7f);
-    juce::Colour c2 = juce::Colour::Colour::fromFloatRGBA(0.5f, 0.0f, 0.5f, .7f);
-    g.setGradientFill(juce::ColourGradient(c1, 0, 0, c2, getWidth(), getHeight(), false));
+    //g.setGradientFill(juce::ColourGradient(green, 0, 0, purple, getWidth(), getHeight(), false));
+    g.setColour(AQUA);
     g.fillRoundedRectangle(getLocalBounds().toFloat(), 50.0f);
 
     g.setColour(juce::Colours::white);
@@ -86,7 +68,6 @@ void FilterComp::setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, ju
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 15);
     addAndMakeVisible(slider);
     attachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(apvts, id, slider);
-    label.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
     label.setJustificationType(juce::Justification::centred);
     label.setFont(15.0f);
     addAndMakeVisible(label);

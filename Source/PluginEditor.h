@@ -33,7 +33,7 @@ private:
     ConvolusynAudioProcessor& audioProcessor;
 
     //============================================================================== Gain
-    juce::Slider gSlider;
+    juce::Slider gain;
 
     //============================================================================== OSC
     OscComp osc;

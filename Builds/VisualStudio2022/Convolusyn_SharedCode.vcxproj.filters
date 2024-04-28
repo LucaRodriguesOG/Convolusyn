@@ -3099,6 +3099,9 @@
     <ClInclude Include="..\..\Source\UI\OscComp.h">
       <Filter>Convolusyn\Source\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\UI\UI_Global.h">
+      <Filter>Convolusyn\Source\UI</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClInclude>

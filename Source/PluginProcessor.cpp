@@ -161,6 +161,20 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    /*juce::AudioPlayHead* playHead = getPlayHead();
+    if (playHead) 
+    {
+        juce::AudioPlayHead::CurrentPositionInfo* info = new juce::AudioPlayHead::CurrentPositionInfo();
+        
+        if (!playHead->getCurrentPosition(*info)) {
+            DBG("AudioPlayHead Unavailabe");
+        }
+
+        auto bpm = info->bpm;
+    }*/
+    
+    auto bpm = getPlayHead()->getPosition()->getBpm();
+
     //============================================================================== Synth
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<Voice*>(synth.getVoice(i))) {

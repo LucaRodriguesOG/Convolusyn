@@ -27,9 +27,7 @@ ADSRComp::~ADSRComp()
 
 void ADSRComp::paint (juce::Graphics& g)
 {
-    juce::Colour c1 = juce::Colour::Colour::fromFloatRGBA(0.0f, 0.5f, 0.3f, .7f);
-    juce::Colour c2 = juce::Colour::Colour::fromFloatRGBA(0.5f, 0.0f, 0.5f, .7f);
-    g.setGradientFill(juce::ColourGradient(c1, 0, 0, c2, getWidth(), getHeight(), false));
+    g.setColour(SKY_BLUE);
     g.fillRoundedRectangle(getLocalBounds().toFloat(), 50.0f);
 
     g.setColour(juce::Colours::white);
@@ -69,7 +67,6 @@ void ADSRComp::setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 15);
     addAndMakeVisible(slider);
     attachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(apvts, id, slider);
-    label.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
     label.setJustificationType(juce::Justification::centred);
     label.setFont(15.0f);
     addAndMakeVisible(label);

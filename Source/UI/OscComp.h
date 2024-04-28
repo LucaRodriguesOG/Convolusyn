@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "UI_Global.h"
 
 //==============================================================================
 class OscComp  : public juce::Component

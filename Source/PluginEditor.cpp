@@ -22,12 +22,27 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     // editor's size to whatever you need it to be.
     setSize(800, 600);
 
-    // LookAndFeel?
-    getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::white);
-    getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colour::Colour::fromFloatRGBA(0.0f, 1.0f, 1.0f, 1.0f));
+    // LookAndFeel
+    getLookAndFeel().setColour(juce::Slider::thumbColourId, WHITE);
+    getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, GREY);
+    getLookAndFeel().setColour(juce::Slider::rotarySliderOutlineColourId, DARK_GREY);
+
+    getLookAndFeel().setColour(juce::ComboBox::backgroundColourId, WHITE);
+    getLookAndFeel().setColour(juce::ComboBox::textColourId, DARK_GREY);
+    getLookAndFeel().setColour(juce::ComboBox::outlineColourId, WHITE);
+    getLookAndFeel().setColour(juce::ComboBox::arrowColourId, GREY);
+
+    getLookAndFeel().setColour(juce::Label::textColourId, WHITE);
+
+    getLookAndFeel().setColour(juce::ToggleButton::tickColourId, DARK_GREY);
+    getLookAndFeel().setColour(juce::ToggleButton::tickDisabledColourId, WHITE);
+
+    getLookAndFeel().setColour(juce::PopupMenu::backgroundColourId, WHITE);
+    getLookAndFeel().setColour(juce::PopupMenu::textColourId, DARK_GREY);
+    getLookAndFeel().setColour(juce::PopupMenu::highlightedBackgroundColourId, GREY);
 
     // GAIN
-    // setSlider(gSlider);
+    //addAndMakeVisible(gain);
 
     // OSC
     addAndMakeVisible(osc);
@@ -52,7 +67,7 @@ void ConvolusynAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.fillAll(juce::Colour::Colour::fromFloatRGBA(0.13f, 0.13f, 0.13f, 1.0f));
+    g.fillAll(DARK_GREY);
     /*juce::Colour c1 = juce::Colour::Colour::fromFloatRGBA(0.0f, 0.5f, 0.3f, .7f);
     juce::Colour c2 = juce::Colour::Colour::fromFloatRGBA(0.5f, 0.0f, 0.5f, .7f);
     g.setGradientFill(juce::ColourGradient(c1, 0, 0, c2, getWidth(), getHeight(), false));

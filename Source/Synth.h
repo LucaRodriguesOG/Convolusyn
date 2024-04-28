@@ -44,9 +44,6 @@ public:
     // ADSR
     void updateADSR(const float a, const float d, const float s, const float r);
 
-    // Filter
-    //void updateFilter(const int filterType, const float filterCutoff, const float filterResonance);
-
     // LFO
     //void updateLFOADSR(const float a, const float d, const float s, const float r);
 

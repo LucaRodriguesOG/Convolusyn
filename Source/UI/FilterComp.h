@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "UI_Global.h"
 
 //==============================================================================
 /*
@@ -40,10 +41,6 @@ private:
     juce::Label filterResonanceLabel{ "Filter Resonance", "Reso" };
 
     juce::String name{ "" };
-
-    //bool on = false;
-
-
 
     void setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,
         juce::Label& label, std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>& attachment);
