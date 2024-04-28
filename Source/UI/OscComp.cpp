@@ -34,8 +34,13 @@ OscComp::~OscComp()
 
 void OscComp::paint (juce::Graphics& g)
 {
+    juce::Colour c1 = juce::Colour::Colour::fromFloatRGBA(0.0f, 0.5f, 0.3f, .7f);
+    juce::Colour c2 = juce::Colour::Colour::fromFloatRGBA(0.5f, 0.0f, 0.5f, .7f);
+    g.setGradientFill(juce::ColourGradient(c1, 0, 0, c2, getWidth(), getHeight(), false));
+    g.fillRoundedRectangle(getLocalBounds().toFloat(), 50.0f);
+
     g.setColour(juce::Colours::white);
-    g.drawRect(getLocalBounds(), 1);   // draw an outline around the component
+    g.drawRoundedRectangle(getLocalBounds().toFloat(), 50.0f, 1.0f);   // draw an outline around the component
     g.drawText(name, getLocalBounds().reduced(5), juce::Justification::centredTop);
 }
 
