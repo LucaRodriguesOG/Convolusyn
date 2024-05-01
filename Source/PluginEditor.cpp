@@ -16,7 +16,8 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     osc(audioProcessor.apvts, "OSC 1", "OSC1WAVETYPE"),
     adsr(audioProcessor.apvts, "OSC ADSR", "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
     filter(audioProcessor.apvts, "FILTER"),
-    lfoADSR(audioProcessor.apvts, "FILTER ADSR", "FATTACK", "FDECAY", "FSUSTAIN", "FRELEASE")
+    lfo(audioProcessor.apvts, "FILTER LFO"),
+    conv(audioProcessor.apvts, "CONVOLUTION")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -54,8 +55,10 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     addAndMakeVisible(filter);
 
     // LFO
-    addAndMakeVisible(lfoADSR);
+    addAndMakeVisible(lfo);
 
+    // CONV
+    addAndMakeVisible(conv);
 }
 
 ConvolusynAudioProcessorEditor::~ConvolusynAudioProcessorEditor()
@@ -78,8 +81,8 @@ void ConvolusynAudioProcessorEditor::resized()
 {   
     int padW = 10;
     int padH = 10;
-    int moduleWidth = getWidth() / 3 - padW;
-    int moduleHeight = getHeight() / 3 - padH;
+    int moduleWidth = getWidth() / 3 - padW * 2;
+    int moduleHeight = getHeight() / 3 - padH * 2;
 
     // Oscillator
     osc.setBounds(padW, padH, moduleWidth, moduleHeight);
@@ -88,9 +91,11 @@ void ConvolusynAudioProcessorEditor::resized()
     adsr.setBounds(padW, getHeight() - moduleHeight - padH, moduleWidth, moduleHeight);
 
     // Filter
-    //filter.setBounds(moduleWidth + padW * 3 / 2, moduleHeight + padH, moduleWidth, moduleHeight); // sets module in the middle
     filter.setBounds(getWidth() - moduleWidth - padW, padH, moduleWidth, moduleHeight);
 
     // LFO
-    lfoADSR.setBounds(getWidth() - moduleWidth - padW, getHeight() - moduleHeight - padH, moduleWidth, moduleHeight);
+    lfo.setBounds(getWidth() - moduleWidth - padW, getHeight() - moduleHeight - padH, moduleWidth, moduleHeight);
+
+    // Convolution
+    conv.setBounds(padW, moduleHeight + padH * 3, moduleWidth*3 + padW * 4, moduleHeight);
 }

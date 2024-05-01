@@ -143,10 +143,14 @@
     <ClCompile Include="..\..\Source\PluginEditor.cpp"/>
     <ClCompile Include="..\..\Source\Synth.cpp"/>
     <ClCompile Include="..\..\Source\Data\ADSRData.cpp"/>
+    <ClCompile Include="..\..\Source\Data\ConvData.cpp"/>
     <ClCompile Include="..\..\Source\Data\FilterData.cpp"/>
+    <ClCompile Include="..\..\Source\Data\LFOData.cpp"/>
     <ClCompile Include="..\..\Source\Data\OscData.cpp"/>
     <ClCompile Include="..\..\Source\UI\ADSRComp.cpp"/>
+    <ClCompile Include="..\..\Source\UI\ConvComp.cpp"/>
     <ClCompile Include="..\..\Source\UI\FilterComp.cpp"/>
+    <ClCompile Include="..\..\Source\UI\LFOComp.cpp"/>
     <ClCompile Include="..\..\Source\UI\OscComp.cpp"/>
     <ClCompile Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
@@ -2433,10 +2437,14 @@
     <ClInclude Include="..\..\Source\PluginEditor.h"/>
     <ClInclude Include="..\..\Source\Synth.h"/>
     <ClInclude Include="..\..\Source\Data\ADSRData.h"/>
+    <ClInclude Include="..\..\Source\Data\ConvData.h"/>
     <ClInclude Include="..\..\Source\Data\FilterData.h"/>
+    <ClInclude Include="..\..\Source\Data\LFOData.h"/>
     <ClInclude Include="..\..\Source\Data\OscData.h"/>
     <ClInclude Include="..\..\Source\UI\ADSRComp.h"/>
+    <ClInclude Include="..\..\Source\UI\ConvComp.h"/>
     <ClInclude Include="..\..\Source\UI\FilterComp.h"/>
+    <ClInclude Include="..\..\Source\UI\LFOComp.h"/>
     <ClInclude Include="..\..\Source\UI\OscComp.h"/>
     <ClInclude Include="..\..\Source\UI\UI_Global.h"/>
     <ClInclude Include="..\..\..\..\juce-7.0.5-windows\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>

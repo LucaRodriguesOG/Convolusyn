@@ -17,16 +17,24 @@
       <GROUP id="{249D1ACD-BB5D-2035-3D35-08DABCF1E14D}" name="Data">
         <FILE id="bs3moZ" name="ADSRData.cpp" compile="1" resource="0" file="Source/Data/ADSRData.cpp"/>
         <FILE id="alIyeA" name="ADSRData.h" compile="0" resource="0" file="Source/Data/ADSRData.h"/>
+        <FILE id="K5d4Vs" name="ConvData.cpp" compile="1" resource="0" file="Source/Data/ConvData.cpp"/>
+        <FILE id="rfz9Qu" name="ConvData.h" compile="0" resource="0" file="Source/Data/ConvData.h"/>
         <FILE id="cqCRoW" name="FilterData.cpp" compile="1" resource="0" file="Source/Data/FilterData.cpp"/>
         <FILE id="DCwWHv" name="FilterData.h" compile="0" resource="0" file="Source/Data/FilterData.h"/>
+        <FILE id="r4BQEk" name="LFOData.cpp" compile="1" resource="0" file="Source/Data/LFOData.cpp"/>
+        <FILE id="QVSvQO" name="LFOData.h" compile="0" resource="0" file="Source/Data/LFOData.h"/>
         <FILE id="nrRhdm" name="OscData.cpp" compile="1" resource="0" file="Source/Data/OscData.cpp"/>
         <FILE id="Tmy56V" name="OscData.h" compile="0" resource="0" file="Source/Data/OscData.h"/>
       </GROUP>
       <GROUP id="{103AFD3D-2AF9-D741-AA55-F70E5C9B95AF}" name="UI">
         <FILE id="e3FX7k" name="ADSRComp.cpp" compile="1" resource="0" file="Source/UI/ADSRComp.cpp"/>
         <FILE id="Xc0GWE" name="ADSRComp.h" compile="0" resource="0" file="Source/UI/ADSRComp.h"/>
+        <FILE id="Ddp5lj" name="ConvComp.cpp" compile="1" resource="0" file="Source/UI/ConvComp.cpp"/>
+        <FILE id="HMLXyc" name="ConvComp.h" compile="0" resource="0" file="Source/UI/ConvComp.h"/>
         <FILE id="oCR46i" name="FilterComp.cpp" compile="1" resource="0" file="Source/UI/FilterComp.cpp"/>
         <FILE id="s7FAuC" name="FilterComp.h" compile="0" resource="0" file="Source/UI/FilterComp.h"/>
+        <FILE id="XakhFe" name="LFOComp.cpp" compile="1" resource="0" file="Source/UI/LFOComp.cpp"/>
+        <FILE id="jSXIOu" name="LFOComp.h" compile="0" resource="0" file="Source/UI/LFOComp.h"/>
         <FILE id="c6Q2FV" name="OscComp.cpp" compile="1" resource="0" file="Source/UI/OscComp.cpp"/>
         <FILE id="P9BCpU" name="OscComp.h" compile="0" resource="0" file="Source/UI/OscComp.h"/>
         <FILE id="YKM93d" name="UI_Global.h" compile="0" resource="0" file="Source/UI/UI_Global.h"/>

@@ -35,7 +35,7 @@ OscComp::~OscComp()
 void OscComp::paint (juce::Graphics& g)
 {
     //g.setGradientFill(juce::ColourGradient(AQUA, 0, 0, PURPLE, getWidth(), getHeight(), false));
-    g.setColour(YELLOW);
+    g.setColour(PINK);
     g.fillRoundedRectangle(getLocalBounds().toFloat(), 50.0f);
 
     g.setColour(juce::Colours::white);

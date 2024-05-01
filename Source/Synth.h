@@ -14,6 +14,8 @@
 #include "Data/ADSRData.h"
 #include "Data/OscData.h"
 #include "Data/FilterData.h"
+#include "Data/ConvData.h"
+#include "Data/LFOData.h"
 
 class Sound : public juce::SynthesiserSound {
     

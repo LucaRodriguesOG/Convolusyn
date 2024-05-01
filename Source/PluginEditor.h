@@ -13,6 +13,8 @@
 #include "UI/ADSRComp.h"
 #include "UI/OscComp.h"
 #include "UI/FilterComp.h"
+#include "UI/ConvComp.h"
+#include "UI/LFOComp.h"
 
 //==============================================================================
 /**
@@ -45,7 +47,10 @@ private:
     FilterComp filter;
 
     //============================================================================== LFO
-    ADSRComp lfoADSR;
+    LFOComp lfo;
+
+    //============================================================================== Convolution
+    ConvComp conv;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };

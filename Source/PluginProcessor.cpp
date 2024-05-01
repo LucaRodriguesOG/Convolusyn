@@ -190,10 +190,10 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             auto& r = *apvts.getRawParameterValue("RELEASE");
 
             // LFO
-            auto& aLFO = *apvts.getRawParameterValue("FATTACK");            // going to change to make less cpu intensive
-            auto& dLFO = *apvts.getRawParameterValue("FDECAY");
-            auto& sLFO = *apvts.getRawParameterValue("FSUSTAIN");
-            auto& rLFO = *apvts.getRawParameterValue("FRELEASE");
+            auto& aLFO = *apvts.getRawParameterValue("LFOATTACK");            // going to change to make less cpu intensive
+            auto& dLFO = *apvts.getRawParameterValue("LFODECAY");
+            auto& sLFO = *apvts.getRawParameterValue("LFOSUSTAIN");
+            auto& rLFO = *apvts.getRawParameterValue("LFORELEASE");
 
             // All Updates
             voice->getOscillator().setWaveType(oscWave);
@@ -297,10 +297,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout ConvolusynAudioProcessor::cr
     params.push_back(std::make_unique<juce::AudioParameterBool>("FILTERBUTTON", "Filter Button", false));
 
     // LFO 1
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FATTACK", "LFO Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FDECAY", "LFO Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FSUSTAIN", "LFO Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("FRELEASE", "LFO Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOATTACK", "LFO Attack", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFODECAY", "LFO Decay", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOSUSTAIN", "LFO Sustain", juce::NormalisableRange{ 0.001f, 1.0f, 0.001f }, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFORELEASE", "LFO Release", juce::NormalisableRange{ 0.001f, 4.0f, 0.001f }, 0.4f));
+
+    // Convolution
+    params.push_back(std::make_unique<juce::AudioParameterBool>("CONVBUTTON", "Convolution Button", false));
 
     return {params.begin(), params.end()};
 }

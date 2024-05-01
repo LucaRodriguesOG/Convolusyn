@@ -619,7 +619,13 @@
     <ClCompile Include="..\..\Source\Data\ADSRData.cpp">
       <Filter>Convolusyn\Source\Data</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Data\ConvData.cpp">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Data\FilterData.cpp">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Data\LFOData.cpp">
       <Filter>Convolusyn\Source\Data</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Data\OscData.cpp">
@@ -628,7 +634,13 @@
     <ClCompile Include="..\..\Source\UI\ADSRComp.cpp">
       <Filter>Convolusyn\Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UI\ConvComp.cpp">
+      <Filter>Convolusyn\Source\UI</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UI\FilterComp.cpp">
+      <Filter>Convolusyn\Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UI\LFOComp.cpp">
       <Filter>Convolusyn\Source\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UI\OscComp.cpp">
@@ -3084,7 +3096,13 @@
     <ClInclude Include="..\..\Source\Data\ADSRData.h">
       <Filter>Convolusyn\Source\Data</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Data\ConvData.h">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Data\FilterData.h">
+      <Filter>Convolusyn\Source\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Data\LFOData.h">
       <Filter>Convolusyn\Source\Data</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Data\OscData.h">
@@ -3093,7 +3111,13 @@
     <ClInclude Include="..\..\Source\UI\ADSRComp.h">
       <Filter>Convolusyn\Source\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\UI\ConvComp.h">
+      <Filter>Convolusyn\Source\UI</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\UI\FilterComp.h">
+      <Filter>Convolusyn\Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UI\LFOComp.h">
       <Filter>Convolusyn\Source\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UI\OscComp.h">
