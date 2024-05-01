@@ -27,7 +27,23 @@ public:
 
 private:
 
+    juce::ComboBox lfoTypeBox;
+    juce::Slider lfoAmtSlider;
+    juce::Slider lfoFreqSlider;
+    juce::ToggleButton lfoButton;
+
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> lfoTypeAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoAmtAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoFreqAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> lfoButtonAttachment;
+
+    juce::Label lfoAmtLabel{ "LFO Amt", "Amt" };
+    juce::Label lfoFreqLabel{ "LFO Freq", "Freq" };
+
     juce::String name{ "" };
+
+    void setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,
+        juce::Label& label, std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>& attachment);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LFOComp)
 };

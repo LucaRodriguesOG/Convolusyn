@@ -11,5 +11,6 @@
 #pragma once
 
 class LFOData {
-
+public:
+private:
 };

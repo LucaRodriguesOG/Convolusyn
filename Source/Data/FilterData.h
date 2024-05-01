@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "LFOData.h"
 
 class FilterData
 {
@@ -22,4 +23,6 @@ public:
 private:
     juce::dsp::StateVariableTPTFilter<float> filter;
     bool isPrepared{ false };
+
+    LFOData lfo;
 };
