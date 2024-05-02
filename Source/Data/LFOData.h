@@ -13,4 +13,5 @@
 class LFOData {
 public:
 private:
+    float freq;
 };
