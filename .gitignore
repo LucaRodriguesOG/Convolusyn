@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # Builds
 Builds/
+/Builds/VisualStudio2022/Convolusyn_VST3.vcxproj.filters
