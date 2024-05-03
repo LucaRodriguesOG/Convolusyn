@@ -27,7 +27,7 @@ ADSRComp::~ADSRComp()
 
 void ADSRComp::paint (juce::Graphics& g)
 {
-    g.setColour(SKY_BLUE);
+    g.setColour(AQUA);
     g.fillRoundedRectangle(getLocalBounds().toFloat(), 50.0f);
 
     g.setColour(juce::Colours::white);

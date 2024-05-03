@@ -17,11 +17,12 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     adsr(audioProcessor.apvts, "OSC ADSR", "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
     filter(audioProcessor.apvts, "FILTER"),
     lfo(audioProcessor.apvts, "FILTER LFO"),
-    conv(audioProcessor.apvts, "CONVOLUTION")
+    conv(audioProcessor.apvts, "CONVOLUTION"),
+    gain(audioProcessor.apvts, "GAIN")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize(800, 600);
+    setSize(900, 600);
 
     // LookAndFeel
     getLookAndFeel().setColour(juce::Slider::thumbColourId, WHITE);
@@ -42,9 +43,6 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     getLookAndFeel().setColour(juce::PopupMenu::textColourId, DARK_GREY);
     getLookAndFeel().setColour(juce::PopupMenu::highlightedBackgroundColourId, GREY);
 
-    // GAIN
-    //addAndMakeVisible(gain);
-
     // OSC
     addAndMakeVisible(osc);
 
@@ -59,6 +57,9 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
 
     // CONV
     addAndMakeVisible(conv);
+    
+    // GAIN
+    addAndMakeVisible(gain);
 }
 
 ConvolusynAudioProcessorEditor::~ConvolusynAudioProcessorEditor()
@@ -70,32 +71,36 @@ void ConvolusynAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.fillAll(DARK_GREY);
-    /*juce::Colour c1 = juce::Colour::Colour::fromFloatRGBA(0.0f, 0.5f, 0.3f, .7f);
-    juce::Colour c2 = juce::Colour::Colour::fromFloatRGBA(0.5f, 0.0f, 0.5f, .7f);
-    g.setGradientFill(juce::ColourGradient(c1, 0, 0, c2, getWidth(), getHeight(), false));
-    g.fillRoundedRectangle(getLocalBounds().toFloat(), 50.0f);*/
+    //g.fillAll(DARK_GREY);
+    g.setGradientFill(juce::ColourGradient(BLACK, getWidth()/2, 0, DARK_GREY, getWidth()/2, getHeight()/16, false));
+    g.fillRect(getLocalBounds());
+    g.setColour(WHITE);
+    g.setFont(getHeight() / 4);
+    g.drawText("CONVOLUSYN", getLocalBounds(), juce::Justification::centred);
 }
 
 void ConvolusynAudioProcessorEditor::resized()
 {   
     int padW = 10;
     int padH = 10;
-    int moduleWidth = getWidth() / 3 - padW * 2;
-    int moduleHeight = getHeight() / 3 - padH * 2;
+    int moduleWidth = getWidth() / 3 - padW; // - padW * 2
+    int moduleHeight = getHeight() / 3 - padH; // - padH * 2
 
     // Oscillator
     osc.setBounds(padW, padH, moduleWidth, moduleHeight);
 
     // ADSR
-    adsr.setBounds(padW, getHeight() - moduleHeight - padH, moduleWidth, moduleHeight);
+    adsr.setBounds(padW, padH*2 + moduleHeight*2, moduleWidth, moduleHeight);
 
     // Filter
-    filter.setBounds(getWidth() - moduleWidth - padW, padH, moduleWidth, moduleHeight);
+    filter.setBounds(padW*2 + moduleWidth*2, padH, moduleWidth, moduleHeight);
 
     // LFO
-    lfo.setBounds(getWidth() - moduleWidth - padW, getHeight() - moduleHeight - padH, moduleWidth, moduleHeight);
+    lfo.setBounds(padW*2 + moduleWidth*2, padH*2 + moduleHeight*2, moduleWidth, moduleHeight);
 
     // Convolution
-    conv.setBounds(padW, moduleHeight + padH * 3, moduleWidth*3 + padW * 4, moduleHeight);
+    conv.setBounds(padW*3/2 + moduleWidth, padH, moduleWidth, moduleHeight);
+
+    // Gain
+    gain.setBounds(padW*3/2 + moduleWidth, padH*2 + moduleHeight*2, moduleWidth, moduleHeight);
 }

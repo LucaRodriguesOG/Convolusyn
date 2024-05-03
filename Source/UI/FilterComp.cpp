@@ -36,7 +36,7 @@ FilterComp::~FilterComp()
 void FilterComp::paint (juce::Graphics& g)
 {   
     //g.setGradientFill(juce::ColourGradient(green, 0, 0, purple, getWidth(), getHeight(), false));
-    g.setColour(AQUA);
+    g.setColour(YELLOW);
     g.fillRoundedRectangle(getLocalBounds().toFloat(), 50.0f);
 
     g.setColour(juce::Colours::white);

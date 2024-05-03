@@ -33,6 +33,8 @@
         <FILE id="HMLXyc" name="ConvComp.h" compile="0" resource="0" file="Source/UI/ConvComp.h"/>
         <FILE id="oCR46i" name="FilterComp.cpp" compile="1" resource="0" file="Source/UI/FilterComp.cpp"/>
         <FILE id="s7FAuC" name="FilterComp.h" compile="0" resource="0" file="Source/UI/FilterComp.h"/>
+        <FILE id="zpUxpA" name="GainComp.cpp" compile="1" resource="0" file="Source/UI/GainComp.cpp"/>
+        <FILE id="OKuf2M" name="GainComp.h" compile="0" resource="0" file="Source/UI/GainComp.h"/>
         <FILE id="XakhFe" name="LFOComp.cpp" compile="1" resource="0" file="Source/UI/LFOComp.cpp"/>
         <FILE id="jSXIOu" name="LFOComp.h" compile="0" resource="0" file="Source/UI/LFOComp.h"/>
         <FILE id="c6Q2FV" name="OscComp.cpp" compile="1" resource="0" file="Source/UI/OscComp.cpp"/>

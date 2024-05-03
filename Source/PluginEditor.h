@@ -15,6 +15,7 @@
 #include "UI/FilterComp.h"
 #include "UI/ConvComp.h"
 #include "UI/LFOComp.h"
+#include "UI/GainComp.h"
 
 //==============================================================================
 /**
@@ -34,9 +35,6 @@ private:
     // access the processor object that created it.
     ConvolusynAudioProcessor& audioProcessor;
 
-    //============================================================================== Gain
-    juce::Slider gain;
-
     //============================================================================== OSC
     OscComp osc;
 
@@ -51,6 +49,9 @@ private:
 
     //============================================================================== Convolution
     ConvComp conv;
+    
+    //============================================================================== Gain
+    GainComp gain;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };

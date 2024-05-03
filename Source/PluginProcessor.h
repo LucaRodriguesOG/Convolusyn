@@ -74,6 +74,9 @@ private:
     //============================================================================== Convolution
     ConvData convolution;
 
+    //============================================================================== Gain
+    juce::dsp::Gain<float> gain;
+
     //============================================================================== Value Tree State
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
 

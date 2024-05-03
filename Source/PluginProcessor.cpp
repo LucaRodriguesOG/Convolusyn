@@ -113,6 +113,11 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 
     filter.prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
     lfo.prepare(sampleRate);
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getNumOutputChannels();
+    gain.prepare(spec);
 }
 
 void ConvolusynAudioProcessor::releaseResources()
@@ -232,7 +237,12 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     {
         filter.process(buffer);
     }
-    
+
+    //============================================================================== Gain
+    auto& gainVal = *apvts.getRawParameterValue("GAIN");
+    gain.setGainLinear(gainVal);
+    juce::dsp::AudioBlock<float> audioBlock{ buffer };
+    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -244,7 +254,7 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
+        // ..do something to the data... 
     }
 }
 
@@ -314,6 +324,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout ConvolusynAudioProcessor::cr
 
     // Convolution
     params.push_back(std::make_unique<juce::AudioParameterBool>("CONVBUTTON", "Convolution Button", false));
+
+    // Gain
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", juce::NormalisableRange{ 0.0f, 1.0f, 0.001f }, 0.5f));
 
     return {params.begin(), params.end()};
 }
