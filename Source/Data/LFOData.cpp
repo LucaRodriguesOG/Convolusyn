@@ -49,7 +49,7 @@ void LFOData::updateParams(const int wave, const float f, const float b)
     }
     freq = f;
     bias = b;
-    increment = freq * float(waveSize) / sampleRate;
+    increment = freq * float(waveSize) / sampleRate; // added the 2.0 * pi lets see if good later
 }
 
 float LFOData::val() 
