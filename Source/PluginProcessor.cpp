@@ -290,6 +290,11 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
     return new ConvolusynAudioProcessor();
 }
 
+void ConvolusynAudioProcessor::loadFile(const juce::String& file)
+{
+
+}
+
 // Value Tree
 //juce::AudioProcessorValueTreeState ConvolusynAudioProcessor::getAPVTS() {
 //    return apvts;

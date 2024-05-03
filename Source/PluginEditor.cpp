@@ -104,3 +104,31 @@ void ConvolusynAudioProcessorEditor::resized()
     // Gain
     gain.setBounds(padW*3/2 + moduleWidth, padH*2 + moduleHeight*2, moduleWidth, moduleHeight);
 }
+
+bool ConvolusynAudioProcessorEditor::isInterestedInFileDrag(const juce::StringArray& files)
+{
+    
+    for (auto i : files)
+    {
+        if (i.contains(".wav") || i.contains(".mp3"))
+        {
+            juce::Logger::writeToLog("IM INTERESTED!!!!!");
+            return true;
+        }
+    }
+    return false;
+}
+
+void ConvolusynAudioProcessorEditor::filesDropped(const juce::StringArray& files, int x, int y)
+{
+    
+    if (isInterestedInFileDrag(files))
+    {
+        for (auto i : files)
+        {
+            juce::Logger::writeToLog("YOU DROPPED THIS...");
+            //auto file = std::make_unique<juce::File>(i);
+            audioProcessor.loadFile(i);
+        }
+    }
+}

@@ -20,7 +20,8 @@
 //==============================================================================
 /**
 */
-class ConvolusynAudioProcessorEditor  : public juce::AudioProcessorEditor
+class ConvolusynAudioProcessorEditor  : public juce::AudioProcessorEditor,
+                                        public juce::FileDragAndDropTarget
 {
 public:
     ConvolusynAudioProcessorEditor (ConvolusynAudioProcessor&);
@@ -29,6 +30,10 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+
+    //==============================================================================
+    bool isInterestedInFileDrag(const juce::StringArray& files) override;
+    void filesDropped(const juce::StringArray& files, int x, int y) override;
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -52,6 +57,9 @@ private:
     
     //============================================================================== Gain
     GainComp gain;
+
+    //============================================================================== Files
+    // TODO: see what dsp::convolution takes in, and if we can get the file data into that format, do all of this in audioProcessor.loadFile(juce::String&);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };

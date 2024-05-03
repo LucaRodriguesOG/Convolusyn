@@ -32,6 +32,7 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> convButtonAttachment;
 
     juce::String name{ "" };
+    juce::String fileName{ "" }; // use to write file name of dropped file in whatever component thing u come up with
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvComp)
 };

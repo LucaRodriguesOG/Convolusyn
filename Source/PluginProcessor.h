@@ -57,6 +57,9 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    //============================================================================== Files
+    void loadFile(const juce::String& file);
+
     //============================================================================== Value Tree State
     //juce::AudioProcessorValueTreeState getAPVTS();
     juce::AudioProcessorValueTreeState apvts;
@@ -76,6 +79,9 @@ private:
 
     //============================================================================== Gain
     juce::dsp::Gain<float> gain;
+
+    //============================================================================== Files
+    juce::AudioFormatManager formatManager;
 
     //============================================================================== Value Tree State
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
