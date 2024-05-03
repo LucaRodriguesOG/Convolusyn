@@ -46,7 +46,7 @@ void FilterData::updateParams(const int type, const float freq, const float res,
             break;
     }
 
-    float lfoFreq = freq * lfo; // makes sense to add a value to this instead, starting at 0, and then increasing based on the wavetable value and amt value as scaler
+    float lfoFreq = freq + lfo; // makes sense to add a value to this instead, starting at 0, and then increasing based on the wavetable value and amt value as scaler
     lfoFreq = std::fmax(lfoFreq, 20.0f);
     lfoFreq = std::fmin(lfoFreq, 20000.0f);
 

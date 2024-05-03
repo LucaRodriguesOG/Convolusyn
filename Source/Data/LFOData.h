@@ -14,10 +14,10 @@
 class LFOData {
 public:
     void prepare(double sampleRate);
-    void updateParams(const int wave, const float f, const float b);
+    void updateParams(const int wave, const float a, const float f);
     float val();
 private:
-    float bias{ 0.0f };
+    float amt{ 0.0f };
     float freq{ 0.0f };
     float sampleRate{ 0.0f };
     float increment{ 0.0f };

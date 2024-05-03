@@ -19,15 +19,15 @@ void LFOData::prepare(double sampleRate)
         float temp = 2.0f * juce::MathConstants<float>::pi * i / float(waveSize);
         sine[i] = std::sin(temp);
 
-        saw[i] = 1.0f - i / float(waveSize);
+        saw[i] = - i / float(waveSize);
         
-        square[i] = (i < (waveSize / 2)) ? 1.0f : 0.0f;
+        square[i] = (i < (waveSize / 2)) ? 0.0f : -1.0f;
     }
 
     wave = sine;
 }
 
-void LFOData::updateParams(const int wave, const float f, const float b)
+void LFOData::updateParams(const int wave, const float a, const float f)
 {
     switch (wave)
     {
@@ -47,14 +47,14 @@ void LFOData::updateParams(const int wave, const float f, const float b)
         jassertfalse;
         break;
     }
+    amt = a;
     freq = f;
-    bias = b;
     increment = freq * float(waveSize) / sampleRate; // added the 2.0 * pi lets see if good later
 }
 
 float LFOData::val() 
 {
-    float val = wave[int(phase)] * bias;
+    float val = wave[int(phase)] * amt;
     phase = fmod(phase + increment, float(waveSize));
     return val;
 }
