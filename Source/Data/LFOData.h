@@ -9,9 +9,23 @@
 */
 
 #pragma once
+#include <JuceHeader.h>
 
 class LFOData {
 public:
+    void prepare(double sampleRate);
+    void updateParams(const int wave, const float f, const float b);
+    float val();
 private:
-    float freq;
+    float bias{ 0.0f };
+    float freq{ 0.0f };
+    float sampleRate{ 0.0f };
+    float increment{ 0.0f };
+    float phase{ 0.0f };
+    int waveSize{ 1024 };
+
+    std::vector<float> sine = std::vector<float>(waveSize);
+    std::vector<float> saw = std::vector<float>(waveSize);
+    std::vector<float> square = std::vector<float>(waveSize);
+    std::vector<float> wave = std::vector<float>(waveSize);
 };

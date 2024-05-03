@@ -19,7 +19,7 @@ LFOComp::LFOComp(juce::AudioProcessorValueTreeState& apvts, juce::String name)
     addAndMakeVisible(lfoTypeBox);
     lfoTypeAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(apvts, "LFOWAVETYPE", lfoTypeBox);
 
-    setSliderAndLabel(apvts, juce::String{ "LFOAMT" }, lfoAmtSlider, lfoAmtLabel, lfoAmtAttachment);
+    setSliderAndLabel(apvts, juce::String{ "LFOBIAS" }, lfoBiasSlider, lfoBiasLabel, lfoBiasAttachment);
     setSliderAndLabel(apvts, juce::String{ "LFOFREQ" }, lfoFreqSlider, lfoFreqLabel, lfoFreqAttachment);
 
     lfoButton.setToggleable(true);
@@ -50,11 +50,11 @@ void LFOComp::resized()
 
     lfoTypeBox.setBounds(getWidth() * 1 / 4, 25, getWidth() / 2, getHeight() / 4 - pad);
 
-    lfoAmtSlider.setBounds(getWidth() * 1 / 4, getHeight() / 2, getWidth() / 4, getHeight() / 2 - pad);
-    lfoAmtLabel.setBounds(lfoAmtSlider.getX(), lfoAmtSlider.getY() - 11, lfoAmtSlider.getWidth(), 15);
-
-    lfoFreqSlider.setBounds(getWidth() * 2 / 4, getHeight() / 2, getWidth() / 4, getHeight() / 2 - pad);
+    lfoFreqSlider.setBounds(getWidth() * 1 / 4, getHeight() / 2, getWidth() / 4, getHeight() / 2 - pad);
     lfoFreqLabel.setBounds(lfoFreqSlider.getX(), lfoFreqSlider.getY() - 11, lfoFreqSlider.getWidth(), 15);
+
+    lfoBiasSlider.setBounds(getWidth() * 2 / 4, getHeight() / 2, getWidth() / 4, getHeight() / 2 - pad);
+    lfoBiasLabel.setBounds(lfoBiasSlider.getX(), lfoBiasSlider.getY() - 11, lfoBiasSlider.getWidth(), 15);
 
     lfoButton.setBounds(15, 15, 25, 25);
 }

@@ -112,6 +112,7 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     }
 
     filter.prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
+    lfo.prepare(sampleRate);
 }
 
 void ConvolusynAudioProcessor::releaseResources()
@@ -207,9 +208,11 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
 
     //============================================================================== LFO
     auto& lfoWaveType = *apvts.getRawParameterValue("LFOWAVETYPE");
-    auto& lfoAmt = *apvts.getRawParameterValue("LFOAMT");
     auto& lfoFreq = *apvts.getRawParameterValue("LFOFREQ");
+    auto& lfoBias = *apvts.getRawParameterValue("LFOBIAS");
     auto& lfoButton = *apvts.getRawParameterValue("LFOBUTTON");
+
+    lfo.updateParams(lfoWaveType, lfoFreq, lfoBias);
 
     //============================================================================== Filter
     auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
@@ -217,7 +220,14 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
     auto& filterButton = *apvts.getRawParameterValue("FILTERBUTTON");
 
-    filter.updateParams(filterType, filterCutoff, filterResonance);
+    if (lfoButton) 
+    {
+        filter.updateParams(filterType, filterCutoff, filterResonance, lfo.val());
+    }
+    else
+    {
+        filter.updateParams(filterType, filterCutoff, filterResonance);
+    }
     if (filterButton) 
     {
         filter.process(buffer);
@@ -298,8 +308,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout ConvolusynAudioProcessor::cr
 
     // LFO
     params.push_back(std::make_unique<juce::AudioParameterChoice>("LFOWAVETYPE", "LFO Wave Type", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOAMT", "LFO Amount", juce::NormalisableRange{ 0.0f, 1000.0f, 0.001f, 0.3f }, 0.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOFREQ", "LFO Frequency", juce::NormalisableRange{ 0.0f, 1000.0f, 0.001f, 0.3f }, 0.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOFREQ", "LFO Frequency", juce::NormalisableRange{ 0.001f, 5000.0f, 0.001f, 0.3f }, 200.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOBIAS", "LFO Bias", juce::NormalisableRange{ 0.0f, 5.0f, 0.001f }, 1.0f));
     params.push_back(std::make_unique<juce::AudioParameterBool>("LFOBUTTON", "LFO Button", false));
 
     // Convolution

@@ -23,6 +23,4 @@ public:
 private:
     juce::dsp::StateVariableTPTFilter<float> filter;
     bool isPrepared{ false };
-
-    LFOData lfo;
 };

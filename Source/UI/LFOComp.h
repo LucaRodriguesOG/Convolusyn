@@ -28,18 +28,18 @@ public:
 private:
 
     juce::ComboBox lfoTypeBox;
-    juce::Slider lfoAmtSlider;
     juce::Slider lfoFreqSlider;
+    juce::Slider lfoBiasSlider;
     juce::ToggleButton lfoButton;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> lfoTypeAttachment;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoAmtAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoFreqAttachment;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoBiasAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> lfoButtonAttachment;
-
-    juce::Label lfoAmtLabel{ "LFO Amt", "Amt" };
+    
     juce::Label lfoFreqLabel{ "LFO Freq", "Freq" };
-
+    juce::Label lfoBiasLabel{ "LFO Bias", "Bias" };
+    
     juce::String name{ "" };
 
     void setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,
