@@ -10,16 +10,10 @@
 
 #include "FilterData.h"
 
-void FilterData::prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels)
+void FilterData::prepareToPlay(juce::dsp::ProcessSpec& spec)
 {
     filter.reset();
-
-    juce::dsp::ProcessSpec spec;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.sampleRate = sampleRate;
-    spec.numChannels = numChannels;
     filter.prepare(spec);
-
     isPrepared = true;
 }
 

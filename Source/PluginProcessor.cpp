@@ -110,13 +110,14 @@ void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
             voice->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
         }
     }
-
-    filter.prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
-    lfo.prepare(sampleRate);
+    
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getNumOutputChannels();
+    convolution.prepare(spec);
+    lfo.prepare(sampleRate);
+    filter.prepareToPlay(spec);
     gain.prepare(spec);
 }
 
@@ -201,15 +202,22 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             voice->updateADSR(a.load(), d.load(), s.load(), r.load());
         }
     }
-
+    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    
     //============================================================================== Midi
     /*for (const juce::MidiMessageMetadata metadata : midiMessages) {
         if (metadata.numBytes == 3) {
             juce::Logger::writeToLog("Sample Time: " + juce::String(metadata.getMessage().getTimeStamp()));
         }
     }*/
+    
+    //============================================================================== Convolution
+    auto& convButton = *apvts.getRawParameterValue("CONVBUTTON");
 
-    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    if (convButton)
+    {
+        convolution.process(buffer);
+    }
 
     //============================================================================== LFO
     auto& lfoWaveType = *apvts.getRawParameterValue("LFOWAVETYPE");
@@ -292,7 +300,8 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void ConvolusynAudioProcessor::loadFile(const juce::String& file)
 {
-
+    auto f = juce::File(file);
+    convolution.loadFile(f);
 }
 
 // Value Tree

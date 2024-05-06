@@ -12,6 +12,13 @@
 
 #include <JuceHeader.h>
 
-class ConvData : protected juce::dsp::Convolution {
+class ConvData {
+public:
+    void prepare(juce::dsp::ProcessSpec& spec);
+    void loadFile(juce::File& file);
+    void process(juce::AudioBuffer<float>& buffer);
 
+private:
+    bool isPrepared{ false };
+    juce::dsp::Convolution conv;
 };

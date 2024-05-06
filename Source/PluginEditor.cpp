@@ -17,7 +17,7 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     adsr(audioProcessor.apvts, "OSC ADSR", "ATTACK", "DECAY", "SUSTAIN", "RELEASE"),
     filter(audioProcessor.apvts, "FILTER"),
     lfo(audioProcessor.apvts, "FILTER LFO"),
-    conv(audioProcessor.apvts, "CONVOLUTION"),
+    convolution(audioProcessor.apvts, "CONVOLUTION"),
     gain(audioProcessor.apvts, "GAIN")
 {
     // Make sure that before the constructor has finished, you've set the
@@ -56,7 +56,7 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
     addAndMakeVisible(lfo);
 
     // CONV
-    addAndMakeVisible(conv);
+    addAndMakeVisible(convolution);
     
     // GAIN
     addAndMakeVisible(gain);
@@ -99,7 +99,7 @@ void ConvolusynAudioProcessorEditor::resized()
     lfo.setBounds(padW*2 + moduleWidth*2, padH*2 + moduleHeight*2, moduleWidth, moduleHeight);
 
     // Convolution
-    conv.setBounds(padW*3/2 + moduleWidth, padH, moduleWidth, moduleHeight);
+    convolution.setBounds(padW*3/2 + moduleWidth, padH, moduleWidth, moduleHeight);
 
     // Gain
     gain.setBounds(padW*3/2 + moduleWidth, padH*2 + moduleHeight*2, moduleWidth, moduleHeight);
@@ -112,10 +112,11 @@ bool ConvolusynAudioProcessorEditor::isInterestedInFileDrag(const juce::StringAr
     {
         if (i.contains(".wav") || i.contains(".mp3"))
         {
-            juce::Logger::writeToLog("IM INTERESTED!!!!!");
+            //juce::Logger::writeToLog("IM INTERESTED!!!!!");
             return true;
         }
     }
+    //juce::Logger::writeToLog("NOT INTERESTED...");
     return false;
 }
 
@@ -126,9 +127,9 @@ void ConvolusynAudioProcessorEditor::filesDropped(const juce::StringArray& files
     {
         for (auto i : files)
         {
-            juce::Logger::writeToLog("YOU DROPPED THIS...");
-            //auto file = std::make_unique<juce::File>(i);
+            //juce::Logger::writeToLog("YOU DROPPED THIS");
             audioProcessor.loadFile(i);
+            convolution.setFileName(i);
         }
     }
 }

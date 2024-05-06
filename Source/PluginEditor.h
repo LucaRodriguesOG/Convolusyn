@@ -53,13 +53,10 @@ private:
     LFOComp lfo;
 
     //============================================================================== Convolution
-    ConvComp conv;
+    ConvComp convolution;
     
     //============================================================================== Gain
     GainComp gain;
-
-    //============================================================================== Files
-    // TODO: see what dsp::convolution takes in, and if we can get the file data into that format, do all of this in audioProcessor.loadFile(juce::String&);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConvolusynAudioProcessorEditor)
 };
