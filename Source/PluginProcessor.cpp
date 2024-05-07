@@ -23,8 +23,13 @@ ConvolusynAudioProcessor::ConvolusynAudioProcessor()
                         apvts(*this, nullptr, "Parameters", createParameters())
 #endif
 {
+    
     synth.addSound(new Sound());
-    synth.addVoice(new Voice());
+    // 7 voices
+    for (int i = 0; i < 7; i++)
+    {
+        synth.addVoice(new Voice());
+    }
 }
 
 ConvolusynAudioProcessor::~ConvolusynAudioProcessor()
@@ -183,6 +188,7 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto bpm = getPlayHead()->getPosition()->getBpm();
 
     //============================================================================== Synth
+
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<Voice*>(synth.getVoice(i))) {
             // Osc Type and FM Mods
@@ -226,6 +232,8 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto& lfoButton = *apvts.getRawParameterValue("LFOBUTTON");
 
     lfo.updateParams(lfoWaveType, lfoAmt, lfoFreq);
+
+    // USE MIDI DATA MAYBE TO START LFO AT 0 INDEX ON EACH PLAYBACK
 
     //============================================================================== Filter
     auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");

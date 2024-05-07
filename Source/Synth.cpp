@@ -85,9 +85,6 @@ void Voice::prepareToPlay(double sampleRate, int samplesPerBlock, int outputChan
     osc.prepareToPlay(spec);                                            
     adsr.setSampleRate(sampleRate);                                     
 
-    //gain.prepare(spec);                                                 
-    //gain.setGainLinear(0.10f);
-
     isPrepared = true;
 }
 
