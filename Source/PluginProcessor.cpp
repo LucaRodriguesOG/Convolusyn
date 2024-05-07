@@ -23,7 +23,6 @@ ConvolusynAudioProcessor::ConvolusynAudioProcessor()
                         apvts(*this, nullptr, "Parameters", createParameters())
 #endif
 {
-    
     synth.addSound(new Sound());
     // 7 voices
     for (int i = 0; i < 7; i++)
@@ -101,9 +100,6 @@ void ConvolusynAudioProcessor::changeProgramName (int index, const juce::String&
 //==============================================================================
 void ConvolusynAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need...
-
     // -------------------------------------------------------------------------------------------- Synth
     synth.setCurrentPlaybackSampleRate(sampleRate);
     
@@ -164,12 +160,7 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
+    // clears output channels
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
@@ -185,10 +176,9 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         auto bpm = info->bpm;
     }*/
     
-    auto bpm = getPlayHead()->getPosition()->getBpm();
+    auto bpm = getPlayHead()->getPosition()->getBpm(); // for future updates requiring bpm for lfo modulation consider adding getBPM() function
 
     //============================================================================== Synth
-
     for (int i = 0; i < synth.getNumVoices(); i++) {
         if (auto voice = dynamic_cast<Voice*>(synth.getVoice(i))) {
             // Osc Type and FM Mods
@@ -206,6 +196,7 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             voice->getOscillator().setWaveType(oscWave);
             voice->getOscillator().setFMParams(fmAmt, fmFreq);
             voice->updateADSR(a.load(), d.load(), s.load(), r.load());
+
         }
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
@@ -230,10 +221,24 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto& lfoAmt = *apvts.getRawParameterValue("LFOAMT");
     auto& lfoFreq = *apvts.getRawParameterValue("LFOFREQ");
     auto& lfoButton = *apvts.getRawParameterValue("LFOBUTTON");
+    auto& triggerButton = *apvts.getRawParameterValue("LFOTRIGGERBUTTON");
 
     lfo.updateParams(lfoWaveType, lfoAmt, lfoFreq);
+    
+    if (triggerButton)
+    {
+        for (auto midi : midiMessages)
+        {
+            juce::MidiMessage note = midi.getMessage();
+            if (note.isNoteOn())
+            {
+                lfo.resetPhase();
+            }
+        }
+    }
 
-    // USE MIDI DATA MAYBE TO START LFO AT 0 INDEX ON EACH PLAYBACK
+    // TODO: USE MIDI DATA MAYBE TO START LFO AT 0 INDEX ON EACH PLAYBACK
+    // for (auto midi : midiMessages) {} ? for (const juce::MidiMessageMetadata metadata : midiMessages) ?
 
     //============================================================================== Filter
     auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
@@ -241,7 +246,7 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto& filterResonance = *apvts.getRawParameterValue("FILTERRESONANCE");
     auto& filterButton = *apvts.getRawParameterValue("FILTERBUTTON");
 
-    if (lfoButton) 
+    if (lfoButton) // consider float val = lfo.val(); if (!lfoButton) { val = 1.0f; } 
     {
         filter.updateParams(filterType, filterCutoff, filterResonance, lfo.val());
     }
@@ -343,6 +348,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout ConvolusynAudioProcessor::cr
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOAMT", "LFO Amt", juce::NormalisableRange{ 0.0f, 20000.0f, 1.0f, 0.3f }, 1.0f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("LFOFREQ", "LFO Frequency", juce::NormalisableRange{ 0.001f, 5000.0f, 0.001f, 0.3f }, 200.0f));
     params.push_back(std::make_unique<juce::AudioParameterBool>("LFOBUTTON", "LFO Button", false));
+    params.push_back(std::make_unique<juce::AudioParameterBool>("LFOTRIGGERBUTTON", "LFO Trigger Button", false));
 
     // Convolution
     params.push_back(std::make_unique<juce::AudioParameterBool>("CONVBUTTON", "Convolution Button", false));

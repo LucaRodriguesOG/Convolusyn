@@ -26,6 +26,13 @@ LFOComp::LFOComp(juce::AudioProcessorValueTreeState& apvts, juce::String name)
     addAndMakeVisible(lfoButton);
     lfoButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(apvts, "LFOBUTTON", lfoButton);
 
+    triggerButton.setToggleable(true);
+    addAndMakeVisible(triggerButton);
+    triggerButtonAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(apvts, "LFOTRIGGERBUTTON", triggerButton);
+    triggerLabel.setJustificationType(juce::Justification::centred);
+    triggerLabel.setFont(15.0f);
+    addAndMakeVisible(triggerLabel);
+
     this->name = name;
 }
 
@@ -57,6 +64,9 @@ void LFOComp::resized()
     lfoAmtLabel.setBounds(lfoAmtSlider.getX(), lfoAmtSlider.getY() - 11, lfoAmtSlider.getWidth(), 15);
 
     lfoButton.setBounds(15, 15, 25, 25);
+
+    triggerButton.setBounds(getWidth() - 40, 15, 25, 25);
+    triggerLabel.setBounds(triggerButton.getX() - 11, triggerButton.getY() + 25, 50, 15);
 }
 
 void LFOComp::setSliderAndLabel(juce::AudioProcessorValueTreeState& apvts, juce::String id, juce::Slider& slider,

@@ -15,6 +15,7 @@ class LFOData {
 public:
     void prepare(double sampleRate);
     void updateParams(const int wave, const float a, const float f);
+    void resetPhase();
     float val();
 private:
     float amt{ 0.0f };

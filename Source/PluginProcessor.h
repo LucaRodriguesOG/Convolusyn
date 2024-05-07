@@ -10,6 +10,9 @@
 
 #include <JuceHeader.h>
 #include "Synth.h"
+#include "Data/ConvData.h"
+#include "Data/LFOData.h"
+#include "Data/FilterData.h"
 
 //==============================================================================
 /**
@@ -65,6 +68,8 @@ public:
     juce::AudioProcessorValueTreeState apvts;
 
 private:
+    int oldMidi = 0;
+
     //============================================================================== Synth
     juce::Synthesiser synth;
 

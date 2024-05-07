@@ -58,3 +58,8 @@ float LFOData::val()
     phase = fmod(phase + increment, float(waveSize));
     return val;
 }
+
+void LFOData::resetPhase()
+{
+    phase = 0;
+}
