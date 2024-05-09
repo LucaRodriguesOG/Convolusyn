@@ -13,6 +13,8 @@ There are multiple ways to install this project, but the simplest way is
 - Build the solution
 - Now you can navigate to the "_SharedCode" project and find the source files there!
 ## Demo
-[![Watch the video](https://img.youtube.com/vi/wSCi-kytQMs/hqdefault.jpg)](https://www.youtube.com/embed/wSCi-kytQMs)
+[![Watch](https://img.youtube.com/vi/wSCi-kytQMs/hqdefault.jpg)](https://www.youtube.com/embed/wSCi-kytQMs)
+
+NOTE: the crackling noise from the highpass at around 0:09 is due to my recording software not being able to handle the high frequencies of the saw wave. I assure you that the plugin itself does not have this problem in DAWs.
 ## Acknowledgements
 - Huge thank you to @TheAudioProgrammer, this youtube channel helped create Convolusyn's foundation
