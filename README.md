@@ -12,6 +12,12 @@ There are multiple ways to install this project, but the simplest way is
 - Click on your preferred "Selected exporter" and click the button to the left
 - Build the solution
 - Now you can navigate to the "_SharedCode" project and find the source files there!
+
+If you wish to use the plugin without downloading the codebase
+- Download the standalone (.exe) or the plugin (.vst) from the "Current Builds" folder
+- For the standalone, just run it from wherever you downloaded it to
+- For the plugin, drag and drop it into your VST3 folder
+
 ## Demo
 [![Watch](https://img.youtube.com/vi/wSCi-kytQMs/hqdefault.jpg)](https://www.youtube.com/embed/wSCi-kytQMs)
 
