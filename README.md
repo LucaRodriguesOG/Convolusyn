@@ -12,6 +12,7 @@ There are multiple ways to install this project, but the simplest way is
 - Click on your preferred "Selected exporter" and click the button to the left
 - Build the solution
 - Now you can navigate to the "_SharedCode" project and find the source files there!
-## Usage
+## Demo
+[![Watch the video](https://img.youtube.com/vi/wSCi-kytQMs/hqdefault.jpg)](https://www.youtube.com/embed/wSCi-kytQMs)
 ## Acknowledgements
 - Huge thank you to @TheAudioProgrammer, this youtube channel helped create Convolusyn's foundation
