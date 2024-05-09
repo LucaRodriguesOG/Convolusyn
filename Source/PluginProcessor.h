@@ -62,14 +62,13 @@ public:
 
     //============================================================================== Files
     void loadFile(const juce::String& file);
+    juce::String getFileName();
 
     //============================================================================== Value Tree State
     //juce::AudioProcessorValueTreeState getAPVTS();
     juce::AudioProcessorValueTreeState apvts;
 
 private:
-    int oldMidi = 0;
-
     //============================================================================== Synth
     juce::Synthesiser synth;
 
@@ -84,6 +83,9 @@ private:
 
     //============================================================================== Gain
     juce::dsp::Gain<float> gain;
+
+    //============================================================================== Files
+    juce::String fileName{ "" };
 
     //============================================================================== Value Tree State
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();

@@ -57,6 +57,10 @@ ConvolusynAudioProcessorEditor::ConvolusynAudioProcessorEditor (ConvolusynAudioP
 
     // CONV
     addAndMakeVisible(convolution);
+    if (audioProcessor.getFileName() != "")
+    {
+        convolution.setFileName(audioProcessor.getFileName());
+    }
     
     // GAIN
     addAndMakeVisible(gain);

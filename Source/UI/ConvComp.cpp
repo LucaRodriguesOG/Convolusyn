@@ -40,8 +40,6 @@ void ConvComp::paint (juce::Graphics& g)
     g.setColour(juce::Colours::white);
     g.drawRoundedRectangle(getLocalBounds().toFloat(), 50.0f, 1.0f);   // draw an outline around the component
     g.drawText(name, getLocalBounds().reduced(5), juce::Justification::centredTop);
-
-    //g.drawText(fileName.getText(), getLocalBounds(), juce::Justification::centred);
 }
 
 void ConvComp::resized()

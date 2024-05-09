@@ -201,13 +201,6 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     
-    //============================================================================== Midi
-    /*for (const juce::MidiMessageMetadata metadata : midiMessages) {
-        if (metadata.numBytes == 3) {
-            juce::Logger::writeToLog("Sample Time: " + juce::String(metadata.getMessage().getTimeStamp()));
-        }
-    }*/
-    
     //============================================================================== Convolution
     auto& convButton = *apvts.getRawParameterValue("CONVBUTTON");
 
@@ -236,9 +229,6 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
             }
         }
     }
-
-    // TODO: USE MIDI DATA MAYBE TO START LFO AT 0 INDEX ON EACH PLAYBACK
-    // for (auto midi : midiMessages) {} ? for (const juce::MidiMessageMetadata metadata : midiMessages) ?
 
     //============================================================================== Filter
     auto& filterType = *apvts.getRawParameterValue("FILTERTYPE");
@@ -271,12 +261,12 @@ void ConvolusynAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    //for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    //{
+    //    auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data... 
-    }
+    //    // ..do something to the data... 
+    //}
 }
 
 //==============================================================================
@@ -293,15 +283,36 @@ juce::AudioProcessorEditor* ConvolusynAudioProcessor::createEditor()
 //==============================================================================
 void ConvolusynAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    // Host calls this when saving project file
+    auto stateInformation= apvts.copyState(); // copy parameter info
+    std::unique_ptr<juce::XmlElement> state(stateInformation.createXml()); // create xml from parameter info
+
+    if (fileName != "")
+    {
+        state->setAttribute("name", fileName); // set fileName as an attribute in the xml file
+    }
+
+    copyXmlToBinary(*state, destData); // turn the file into binary and send to mem block
 }
 
 void ConvolusynAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    // Host calls this when loading project file
+    std::unique_ptr<juce::XmlElement> state(getXmlFromBinary(data, sizeInBytes));
+    if (state.get())
+    {
+        fileName = state->getAllSubText();
+        if (state->hasAttribute("name"))
+        {
+            fileName = state->getStringAttribute("name");
+            convolution.loadFile(juce::File(fileName));
+        }
+        if (state->hasTagName(apvts.state.getType()))
+        {
+            apvts.replaceState(juce::ValueTree::fromXml(*state));
+        }
+    }
+    
 }
 
 //==============================================================================
@@ -313,8 +324,14 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void ConvolusynAudioProcessor::loadFile(const juce::String& file)
 {
+    fileName = file;
     auto f = juce::File(file);
     convolution.loadFile(f);
+}
+
+juce::String ConvolusynAudioProcessor::getFileName()
+{
+    return fileName;
 }
 
 // Value Tree
