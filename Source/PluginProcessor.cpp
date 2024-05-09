@@ -312,6 +312,7 @@ void ConvolusynAudioProcessor::setStateInformation (const void* data, int sizeIn
             apvts.replaceState(juce::ValueTree::fromXml(*state));
         }
     }
+    
 }
 
 //==============================================================================
