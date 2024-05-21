@@ -24,8 +24,8 @@ ConvolusynAudioProcessor::ConvolusynAudioProcessor()
 #endif
 {
     synth.addSound(new Sound());
-    // 7 voices
-    for (int i = 0; i < 7; i++)
+    // 16 voices
+    for (int i = 0; i < 16; i++)
     {
         synth.addVoice(new Voice());
     }
